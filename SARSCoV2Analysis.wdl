@@ -13,8 +13,6 @@ workflow SARSCoV2Analysis {
     String? blastReference
     File? bed
     Int? trimq
-    Int? mem
-    Int? timeout
     String outputFileNamePrefix = "output"
   }
 
@@ -24,9 +22,7 @@ workflow SARSCoV2Analysis {
       fastq2 = fastqR2,
       sample = samplePrefix,
       reference = bbMapReference,
-      trimq = trimq,
-      mem = mem,
-      timeout = timeout
+      trimq = trimq
   }
 
   call bowtie2 {
@@ -34,18 +30,14 @@ workflow SARSCoV2Analysis {
       fastq1 = bbMap.out1,
       fastq2 = bbMap.out2,
       reference = bowtie2Reference,
-      sample = samplePrefix,
-      mem = mem,
-      timeout = timeout
+      sample = samplePrefix
   }
 
   call kraken2 {
     input:
       fastq1 = bowtie2.out1,
       fastq2 = bowtie2.out2,
-      sample = samplePrefix,
-      mem = mem,
-      timeout = timeout
+      sample = samplePrefix
   }
 
   call sensitiveAlignment {
@@ -53,44 +45,34 @@ workflow SARSCoV2Analysis {
       fastq1 = bowtie2.out1,
       fastq2 = bowtie2.out2,
       sample = samplePrefix,
-      sarsCovidIndex = sarsCovidIndex,
-      mem = mem,
-      timeout = timeout
+      sarsCovidIndex = sarsCovidIndex
   }
 
   call variantCalling {
     input:
       sample = samplePrefix,
       samFile = sensitiveAlignment.samFile,
-      sarsCovidRef = sarsCovidRef,
-      mem = mem,
-      timeout = timeout
+      sarsCovidRef = sarsCovidRef
   }
 
   call qcStats {
     input:
       bed = bed,
       sample = samplePrefix,
-      bam = variantCalling.bamFile,
-      mem = mem,
-      timeout = timeout
+      bam = variantCalling.bamFile
   }
 
   call blast2ReferenceSequence {
     input:
       reference = blastReference,
-      consensusFasta = variantCalling.consensusFasta,
-      mem = mem,
-      timeout = timeout
+      consensusFasta = variantCalling.consensusFasta
   }
 
   call spadesGenomicAssembly {
     input:
       fastq1 = bowtie2.out1,
       fastq2 = bowtie2.out2,
-      sample = samplePrefix,
-      mem = mem,
-      timeout = timeout
+      sample = samplePrefix
   }
 
   output {
@@ -115,8 +97,8 @@ task bbMap {
     String sample
     String? reference = "$BBMAP_ROOT/share/bbmap/resources/adapters.fa"
     Int? trimq = 25
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
@@ -145,8 +127,8 @@ task bowtie2 {
     File fastq2
     String? reference = "$HG38_BOWTIE_INDEX_ROOT/hg38_random_index"
     String sample
-    Int? mem = 12
-    Int? timeout = 72
+    Int mem = 12
+    Int timeout = 72
   }
 
   command <<<
@@ -174,8 +156,8 @@ task kraken2 {
     File fastq2
     String? kraken2DB = "$KRAKEN2_DATABASE_ROOT/"
     String sample
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
@@ -202,8 +184,8 @@ task sensitiveAlignment {
     File fastq2
     String sample
     String? sarsCovidIndex = "$SARS_COVID_2_BOWTIE_INDEX_ROOT/MN908947.3"
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
@@ -230,8 +212,8 @@ task variantCalling {
     File samFile
     String sample
     String? sarsCovidRef = "$SARS_COVID_2_ROOT/MN908947.3.fasta"
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
@@ -266,8 +248,8 @@ task qcStats {
     String sample
     File? bed
     File bam
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
@@ -298,8 +280,8 @@ task blast2ReferenceSequence {
     String bl2seq = "/.mounts/labs/gsiprojects/gsi/covid19/sw/bl2seq"
     String? reference = "/.mounts/labs/gsiprojects/gsi/covid19/ref/MN908947.3.fasta"
     File consensusFasta
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
@@ -324,8 +306,8 @@ task spadesGenomicAssembly {
     File fastq1
     File fastq2
     String sample
-    Int? mem = 8
-    Int? timeout = 72
+    Int mem = 8
+    Int timeout = 72
   }
 
   command <<<
