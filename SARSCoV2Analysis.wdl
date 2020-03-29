@@ -5,7 +5,7 @@ workflow SARSCoV2Analysis {
     File fastqR1
     File? fastqR2
     String samplePrefix
-    File? bed
+    File bed
     String outputFileNamePrefix = "output"
   }
 
@@ -16,7 +16,7 @@ workflow SARSCoV2Analysis {
       sample = samplePrefix
   }
 
-  call bowtie2 {
+  call bowtie2HumanDepletion {
     input:
       fastq1 = bbMap.out1,
       fastq2 = bbMap.out2,
@@ -25,29 +25,29 @@ workflow SARSCoV2Analysis {
 
   call kraken2 {
     input:
-      fastq1 = bowtie2.out1,
-      fastq2 = bowtie2.out2,
+      fastq1 = bowtie2HumanDepletion.out1,
+      fastq2 = bowtie2HumanDepletion.out2,
       sample = samplePrefix
   }
 
-  call sensitiveAlignment {
+  call bowtie2Sensitive {
     input:
-      fastq1 = bowtie2.out1,
-      fastq2 = bowtie2.out2,
+      fastq1 = bowtie2HumanDepletion.out1,
+      fastq2 = bowtie2HumanDepletion.out2,
       sample = samplePrefix
   }
 
   call variantCalling {
     input:
       sample = samplePrefix,
-      samFile = sensitiveAlignment.samFile
+      bamFile = bowtie2Sensitive.bamFile
   }
 
   call qcStats {
     input:
       bed = bed,
       sample = samplePrefix,
-      bam = variantCalling.bamFile
+      bam = bowtie2Sensitive.bamFile
   }
 
   call blast2ReferenceSequence {
@@ -57,20 +57,21 @@ workflow SARSCoV2Analysis {
 
   call spadesGenomicAssembly {
     input:
-      fastq1 = bowtie2.out1,
-      fastq2 = bowtie2.out2,
+      fastq1 = bowtie2HumanDepletion.out1,
+      fastq2 = bowtie2HumanDepletion.out2,
       sample = samplePrefix
   }
 
   output {
-    File hostRemovedR1Fastq = bowtie2.out1
-    File hostRemovedR2Fastq = bowtie2.out2
+    File hostRemovedR1Fastq = bowtie2HumanDepletion.out1
+    File hostRemovedR2Fastq = bowtie2HumanDepletion.out2
     File taxonomicClassification = kraken2.out
-    File sam = sensitiveAlignment.samFile
-    File bam = variantCalling.bamFile
+    File bam = bowtie2Sensitive.bamFile
     File vcf = variantCalling.vcfFile
     File consensusFasta = variantCalling.consensusFasta
     File bl2seqReport = blast2ReferenceSequence.bl2seqReport
+    File cvgHist = qcStats.cvgHist
+    File genomecvgHist = qcStats.genomecvgHist
     File spades = spadesGenomicAssembly.sampleSPAdes
   }
 }
@@ -109,7 +110,7 @@ task bbMap {
   }
 }
 
-task bowtie2 {
+task bowtie2HumanDepletion {
   input {
     String modules = "bowtie2/2.3.5.1 hg38-bowtie-index/2.3.5.1"
     File fastq1
@@ -170,9 +171,9 @@ task kraken2 {
   }
 }
 
-task sensitiveAlignment {
+task bowtie2Sensitive {
   input {
-    String modules = "bowtie2/2.3.5.1 sars-covid-2-bowtie-index/2.3.5.1"
+    String modules = "bowtie2/2.3.5.1 sars-covid-2-bowtie-index/2.3.5.1 samtools/1.9"
     File fastq1
     File fastq2
     String sample
@@ -181,13 +182,16 @@ task sensitiveAlignment {
     Int timeout = 72
   }
 
+  String bamFile = "~{sample}.bam"
+
   command <<<
     set -euo pipefail
 
     bowtie2 --sensitive-local -p 4 \
     -x ~{sarsCovidIndex} \
     -1 ~{fastq1} -2 ~{fastq2} \
-    -S ~{sample}.sam
+    | samtools view -b \
+    | samtools sort - -o ~{bamFile}
   >>>
 
   runtime {
@@ -197,33 +201,33 @@ task sensitiveAlignment {
   }
 
   output {
-    File samFile = "~{sample}.sam"
+    File bamFile = "~{bamFile}"
   }
 }
 
 task variantCalling {
   input {
     String modules = "bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-bowtie-index/2.3.5.1 sars-covid-2/mn908947.3"
-    File samFile
+    File bamFile
     String sample
     String sarsCovidRef = "$SARS_COVID_2_ROOT/MN908947.3.fasta"
     Int mem = 8
     Int timeout = 72
   }
 
+  String vcfName = "~{sample}.vcf"
+  String fastaName = "~{sample}.consensus.fasta"
+
   command <<<
     set -euo pipefail
 
-    samtools view -b ~{sample}.sam | \
-    samtools sort - -o ~{sample}.bam \
-
-    samtools index ~{sample}.bam \
+    samtools index ~{bamFile}
 
     samtools mpileup -aa -d 8000 \
-    -uf ~{sarsCovidRef} ~{sample}.bam | \
-    bcftools call -Mc | tee -a ~{sample}.vcf | \
+    -uf ~{sarsCovidRef} ~{bamFile} | \
+    bcftools call -Mc | tee -a ~{vcfName} | \
     vcfutils.pl vcf2fq -d 10 -D 100000000 | \
-    seqtk seq -A - | sed '2~2s/[actg]/N/g' > ~{sample}.consensus.fasta
+    seqtk seq -A - | sed '2~2s/[actg]/N/g' > ~{fastaName}
   >>>
 
   runtime {
@@ -233,9 +237,8 @@ task variantCalling {
   }
 
   output {
-    File bamFile = "~{sample}.bam"
-    File vcfFile = "~{sample}.vcf"
-    File consensusFasta = "~{sample}.consensus.fasta"
+    File vcfFile = "~{vcfName}"
+    File consensusFasta = "~{fastaName}"
   }
 }
 
@@ -269,7 +272,6 @@ task qcStats {
   output {
     File cvgHist = "~{sample}.cvghist.txt"
     File genomecvgHist = "~{sample}.genomecvghist.txt"
-
   }
 }
 
