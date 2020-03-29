@@ -145,7 +145,7 @@ task bowtie2 {
     File fastq2
     String? reference = "$HG38_BOWTIE_INDEX_ROOT/hg38_random_index"
     String sample
-    Int? mem = 8
+    Int? mem = 12
     Int? timeout = 72
   }
 
