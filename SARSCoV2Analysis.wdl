@@ -89,6 +89,8 @@ task bbMap {
   }
 
   command <<<
+    set -euo pipefail
+
     bbmap bbduk in1=~{fastq1} in2=~{fastq2} \
     out1=~{sample}_qad_r1.fastq.gz out2=~{sample}_qad_r2.fastq.gz \
     ref=~{reference} \
@@ -119,6 +121,8 @@ task bowtie2 {
   }
 
   command <<<
+    set -euo pipefail
+
     bowtie2 --quiet -x ~{reference} \
     -1 ~{fastq1} -2 ~{fastq2} \
     --un-conc-gz ~{sample}_host_removed_r%.fastq.gz
@@ -148,6 +152,8 @@ task kraken2 {
   }
 
   command <<<
+    set -euo pipefail
+
     kraken2 --paired ~{fastq1} ~{fastq2} \
     --db ~{kraken2DB} \
     --report ~{sample}.kreport2
@@ -176,6 +182,8 @@ task sensitiveAlignment {
   }
 
   command <<<
+    set -euo pipefail
+
     bowtie2 --sensitive-local -p 4 \
     -x ~{sarsCovidIndex} \
     -1 ~{fastq1} -2 ~{fastq2} \
@@ -204,6 +212,8 @@ task variantCalling {
   }
 
   command <<<
+    set -euo pipefail
+
     samtools view -b ~{sample}.sam | \
     samtools sort - -o ~{sample}.bam \
 
@@ -240,6 +250,8 @@ task qcStats {
   }
 
   command <<<
+    set -euo pipefail
+
     bedtools coverage -hist -a ~{bed} \
     -b ~{bam} > ~{sample}.cvghist.txt \
 
@@ -272,6 +284,8 @@ task blast2ReferenceSequence {
   }
 
   command <<<
+    set -euo pipefail
+
     ~{bl2seq} -i ~{consensusFasta} -j ~{reference} -p blastn \
     -W 28 -r 1 -q -2 -F F > bl2seq_report
   >>>
@@ -298,11 +312,13 @@ task spadesGenomicAssembly {
   }
 
   command <<<
-  mkdir ~{sample}.SPAdes
+    set -euo pipefail
 
-  spades --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+    mkdir ~{sample}.SPAdes
 
-  tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}SPAdes.tar.gz
+    spades --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+
+    tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}SPAdes.tar.gz
   >>>
 
   runtime {
