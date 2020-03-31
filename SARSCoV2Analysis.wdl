@@ -69,6 +69,7 @@ workflow SARSCoV2Analysis {
     File bam = bowtie2Sensitive.bamFile
     File vcf = variantCalling.vcfFile
     File consensusFasta = variantCalling.consensusFasta
+    File variantOnlyVcf = variantCalling.variantOnlyVcf
     File bl2seqReport = blast2ReferenceSequence.bl2seqReport
     File cvgHist = qcStats.cvgHist
     File genomecvgHist = qcStats.genomecvgHist
@@ -217,6 +218,7 @@ task variantCalling {
 
   String vcfName = "~{sample}.vcf"
   String fastaName = "~{sample}.consensus.fasta"
+  String variantOnlyVcf = "~{sample}.v.vcf"
 
   command <<<
     set -euo pipefail
@@ -228,6 +230,10 @@ task variantCalling {
     bcftools call -Mc | tee -a ~{vcfName} | \
     vcfutils.pl vcf2fq -d 10 -D 100000000 | \
     seqtk seq -A - | sed '2~2s/[actg]/N/g' > ~{fastaName}
+
+    bcftools mpileup -a "INFO/AD,FORMAT/DP,FORMAT/AD" \
+    -d 8000 -f ~{sarsCovidRef} ~{sample}.bam | \
+    tee ~{sample}.m.vcf | bcftools call --ploidy 1 -m -v > ~{variantOnlyVcf}
   >>>
 
   runtime {
@@ -239,6 +245,7 @@ task variantCalling {
   output {
     File vcfFile = "~{vcfName}"
     File consensusFasta = "~{fastaName}"
+    File variantOnlyVcf = "~{variantOnlyVcf}"
   }
 }
 
@@ -320,7 +327,6 @@ task spadesGenomicAssembly {
 
     spades --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
 
-    tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}SPAdes.tar.gz
   >>>
 
   runtime {
@@ -330,6 +336,6 @@ task spadesGenomicAssembly {
   }
 
   output {
-    File sampleSPAdes = "~{sample}SPAdes.tar.gz"
+    File sampleSPAdes = "~{sample}.SPAdes"
   }
 }
