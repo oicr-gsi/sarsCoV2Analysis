@@ -6,7 +6,7 @@ workflow SARSCoV2Analysis {
     File? fastqR2
     String samplePrefix
     File bed
-    String outputFileNamePrefix = "output"
+    Boolean trimPrimers
   }
 
   call bbMap {
@@ -37,17 +37,26 @@ workflow SARSCoV2Analysis {
       sample = samplePrefix
   }
 
+  if (trimPrimers) {
+    call articTrimming {
+      input:
+        bam = bowtie2Sensitive.bamFile,
+        sample = samplePrefix
+    }
+  }
+
   call variantCalling {
     input:
       sample = samplePrefix,
-      bamFile = bowtie2Sensitive.bamFile
+      bamFile = select_first([articTrimming.sortedBam, bowtie2Sensitive.bamFile])
   }
 
   call qcStats {
     input:
       bed = bed,
       sample = samplePrefix,
-      bam = bowtie2Sensitive.bamFile
+      bam = bowtie2Sensitive.bamFile,
+      hostMappedBam = bowtie2HumanDepletion.hostMappedBam
   }
 
   call blast2ReferenceSequence {
@@ -65,14 +74,22 @@ workflow SARSCoV2Analysis {
   output {
     File hostRemovedR1Fastq = bowtie2HumanDepletion.out1
     File hostRemovedR2Fastq = bowtie2HumanDepletion.out2
+    File hostMappedBam = bowtie2HumanDepletion.hostMappedBam
+    File hostMappedBai = bowtie2HumanDepletion.hostMappedBai
     File taxonomicClassification = kraken2.out
     File bam = bowtie2Sensitive.bamFile
+    File bai = bowtie2Sensitive.baiFile
+    File? primertrimSortedBam = articTrimming.sortedBam
+    File? primertrimSortedBai = articTrimming.sortedBai
     File vcf = variantCalling.vcfFile
     File consensusFasta = variantCalling.consensusFasta
     File variantOnlyVcf = variantCalling.variantOnlyVcf
     File bl2seqReport = blast2ReferenceSequence.bl2seqReport
     File cvgHist = qcStats.cvgHist
     File genomecvgHist = qcStats.genomecvgHist
+    File genomecvgPerBase = qcStats.genomecvgPerBase
+    File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
+    File hostDepletedAlignmentStats = qcStats.hostDepletedAlignmentStats
     File spades = spadesGenomicAssembly.sampleSPAdes
   }
 }
@@ -113,7 +130,7 @@ task bbMap {
 
 task bowtie2HumanDepletion {
   input {
-    String modules = "bowtie2/2.3.5.1 hg38-bowtie-index/2.3.5.1"
+    String modules = "bowtie2/2.3.5.1 samtools/1.9 hg38-bowtie-index/2.3.5.1"
     File fastq1
     File fastq2
     String reference = "$HG38_BOWTIE_INDEX_ROOT/hg38_random_index"
@@ -122,12 +139,22 @@ task bowtie2HumanDepletion {
     Int timeout = 72
   }
 
+  String hostMappedSam = "~{sample}.host.mapped.sam"
+  String hostMappedBam = "~{sample}.host.mapped.bam"
+  String hostMappedBai = "~{sample}.host.mapped.bai"
+
   command <<<
     set -euo pipefail
 
     bowtie2 --quiet -x ~{reference} \
     -1 ~{fastq1} -2 ~{fastq2} \
-    --un-conc-gz ~{sample}_host_removed_r%.fastq.gz
+    --un-conc-gz ~{sample}_host_removed_r%.fastq.gz \
+    -S ~{hostMappedSam}
+
+    samtools view -b ~{hostMappedSam} | \
+    samtools sort - -o ~{hostMappedBam}
+
+    samtools index ~{hostMappedBam} > ~{hostMappedBai}
   >>>
 
   runtime {
@@ -139,6 +166,8 @@ task bowtie2HumanDepletion {
   output {
     File out1 = "~{sample}_host_removed_r1.fastq.gz"
     File out2 = "~{sample}_host_removed_r2.fastq.gz"
+    File hostMappedBam = "~{hostMappedBam}"
+    File hostMappedBai = "~{hostMappedBai}"
   }
 }
 
@@ -183,7 +212,9 @@ task bowtie2Sensitive {
     Int timeout = 72
   }
 
+  String samFile = "~{sample}.sam"
   String bamFile = "~{sample}.bam"
+  String baiFile = "~{sample}.bai"
 
   command <<<
     set -euo pipefail
@@ -191,8 +222,12 @@ task bowtie2Sensitive {
     bowtie2 --sensitive-local -p 4 \
     -x ~{sarsCovidIndex} \
     -1 ~{fastq1} -2 ~{fastq2} \
-    | samtools view -b \
-    | samtools sort - -o ~{bamFile}
+    -S ~{samFile}
+
+    samtools view -b ~{samFile} | \
+    samtools sort - -o ~{bamFile}
+
+    samtools index ~{bamFile}
   >>>
 
   runtime {
@@ -203,6 +238,45 @@ task bowtie2Sensitive {
 
   output {
     File bamFile = "~{bamFile}"
+    File baiFile = "~{baiFile}"
+  }
+}
+
+task articTrimming {
+  input {
+    String modules = "ivar/1.0"
+    File bam
+    String sample
+    String articBed = "/.mounts/labs/gsiprojects/genomics/SCTSK/analysis/bed/ARTIC-V2.bed"
+    Int mem = 8
+    Int timeout = 72
+  }
+
+  String bamFile = "~{sample}.bam"
+  String primertrim = "~{sample}.primertrim"
+  String primertrimBam = "~{sample}.primertrim.bam"
+  String sortedBam = "~{sample}.primertrim.sorted.bam"
+  String sortedBai = "~{sample}.primertrim.sorted.bai"
+
+  command <<<
+    set -euo pipefail
+
+    ivar trim -i ~{bamFile} -b ~{articBed} -p ~{primertrim}
+
+    samtools sort ~{primertrimBam} -o ~{sortedBam}
+
+    samtools index ~{sortedBam}
+  >>>
+
+  runtime {
+    memory: "~{mem} GB"
+    modules: "~{modules}"
+    timeout: "~{timeout}"
+  }
+
+  output {
+    File? sortedBam = "~{sortedBam}"
+    File? sortedBai = "~{sortedBai}"
   }
 }
 
@@ -223,12 +297,9 @@ task variantCalling {
   command <<<
     set -euo pipefail
 
-    samtools index ~{bamFile}
-
-    samtools mpileup -aa -d 8000 \
-    -uf ~{sarsCovidRef} ~{bamFile} | \
-    bcftools call -Mc | tee -a ~{vcfName} | \
-    vcfutils.pl vcf2fq -d 10 -D 100000000 | \
+    samtools mpileup -aa -uf ~{sarsCovidRef} ~{bamFile} | \
+    bcftools call --ploidy 1 -Mc | tee -a ~{vcfName} | \
+    vcfutils.pl vcf2fq -d 10 | \
     seqtk seq -A - | sed '2~2s/[actg]/N/g' > ~{fastaName}
 
     bcftools mpileup -a "INFO/AD,FORMAT/DP,FORMAT/AD" \
@@ -251,10 +322,11 @@ task variantCalling {
 
 task qcStats {
   input {
-    String modules = "bedtools"
+    String modules = "bedtools samtools/1.9"
     String sample
     File bed
     File bam
+    File hostMappedBam
     Int mem = 8
     Int timeout = 72
   }
@@ -263,11 +335,15 @@ task qcStats {
     set -euo pipefail
 
     bedtools coverage -hist -a ~{bed} \
-    -b ~{bam} > ~{sample}.cvghist.txt \
+    -b ~{bam} > ~{sample}.cvghist.txt
 
-    bedtools genomecov -ibam ~{bam} > ~{sample}.genomecvghist.txt \
+    bedtools genomecov -ibam ~{bam} > ~{sample}.genomecvghist.txt
 
     bedtools genomecov -d -ibam ~{bam} > ~{sample}.genome.cvgperbase.txt
+
+    samtools stats ~{hostMappedBam} > ~{sample}.host.mapped.samstats.txt
+
+    samtools stats ~{bam} > ~{sample}.samstats.txt
   >>>
 
   runtime {
@@ -279,13 +355,15 @@ task qcStats {
   output {
     File cvgHist = "~{sample}.cvghist.txt"
     File genomecvgHist = "~{sample}.genomecvghist.txt"
+    File genomecvgPerBase = "~{sample}.genome.cvgperbase.txt"
+    File hostMappedAlignmentStats = "~{sample}.host.mapped.samstats.txt"
+    File hostDepletedAlignmentStats = "~{sample}.samstats.txt"
   }
 }
 
 task blast2ReferenceSequence {
   input {
     String modules = "blast"
-    String bl2seq = "/.mounts/labs/gsiprojects/gsi/covid19/sw/bl2seq"
     String reference = "/.mounts/labs/gsiprojects/gsi/covid19/ref/MN908947.3.fasta"
     File consensusFasta
     Int mem = 8
@@ -295,8 +373,8 @@ task blast2ReferenceSequence {
   command <<<
     set -euo pipefail
 
-    ~{bl2seq} -i ~{consensusFasta} -j ~{reference} -p blastn \
-    -W 28 -r 1 -q -2 -F F > bl2seq_report
+    blastn -query ~{consensusFasta} -subject ~{reference} \
+    -word_size 28 -reward 1 -penalty -2 -dust no > bl2seq_report
   >>>
 
   runtime {
@@ -325,8 +403,7 @@ task spadesGenomicAssembly {
 
     mkdir ~{sample}.SPAdes
 
-    spades --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
-
+    rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
   >>>
 
   runtime {
