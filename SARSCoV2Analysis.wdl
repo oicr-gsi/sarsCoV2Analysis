@@ -48,14 +48,14 @@ workflow SARSCoV2Analysis {
   call variantCalling {
     input:
       sample = samplePrefix,
-      bamFile = select_first([articTrimming.sortedBam, bowtie2Sensitive.bamFile])
+      bam = select_first([articTrimming.sortedBam, bowtie2Sensitive.bamFile])
   }
 
   call qcStats {
     input:
       bed = bed,
       sample = samplePrefix,
-      bam = bowtie2Sensitive.bamFile,
+      bam = select_first([articTrimming.sortedBam, bowtie2Sensitive.bamFile]),
       hostMappedBam = bowtie2HumanDepletion.hostMappedBam
   }
 
@@ -141,7 +141,7 @@ task bowtie2HumanDepletion {
 
   String hostMappedSam = "~{sample}.host.mapped.sam"
   String hostMappedBam = "~{sample}.host.mapped.bam"
-  String hostMappedBai = "~{sample}.host.mapped.bai"
+  String hostMappedBai = "~{sample}.host.mapped.bam.bai"
 
   command <<<
     set -euo pipefail
@@ -154,7 +154,7 @@ task bowtie2HumanDepletion {
     samtools view -b ~{hostMappedSam} | \
     samtools sort - -o ~{hostMappedBam}
 
-    samtools index ~{hostMappedBam} > ~{hostMappedBai}
+    samtools index ~{hostMappedBam}
   >>>
 
   runtime {
@@ -214,7 +214,7 @@ task bowtie2Sensitive {
 
   String samFile = "~{sample}.sam"
   String bamFile = "~{sample}.bam"
-  String baiFile = "~{sample}.bai"
+  String baiFile = "~{sample}.bam.bai"
 
   command <<<
     set -euo pipefail
@@ -224,8 +224,7 @@ task bowtie2Sensitive {
     -1 ~{fastq1} -2 ~{fastq2} \
     -S ~{samFile}
 
-    samtools view -b ~{samFile} | \
-    samtools sort - -o ~{bamFile}
+    samtools view -b ~{samFile} | samtools sort - -o ~{bamFile}
 
     samtools index ~{bamFile}
   >>>
@@ -252,16 +251,15 @@ task articTrimming {
     Int timeout = 72
   }
 
-  String bamFile = "~{sample}.bam"
   String primertrim = "~{sample}.primertrim"
   String primertrimBam = "~{sample}.primertrim.bam"
   String sortedBam = "~{sample}.primertrim.sorted.bam"
-  String sortedBai = "~{sample}.primertrim.sorted.bai"
+  String sortedBai = "~{sample}.primertrim.sorted.bam.bai"
 
   command <<<
     set -euo pipefail
 
-    ivar trim -i ~{bamFile} -b ~{articBed} -p ~{primertrim}
+    ivar trim -i ~{bam} -b ~{articBed} -p ~{primertrim}
 
     samtools sort ~{primertrimBam} -o ~{sortedBam}
 
@@ -283,7 +281,7 @@ task articTrimming {
 task variantCalling {
   input {
     String modules = "bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-bowtie-index/2.3.5.1 sars-covid-2/mn908947.3"
-    File bamFile
+    File bam
     String sample
     String sarsCovidRef = "$SARS_COVID_2_ROOT/MN908947.3.fasta"
     Int mem = 8
@@ -297,7 +295,7 @@ task variantCalling {
   command <<<
     set -euo pipefail
 
-    samtools mpileup -aa -uf ~{sarsCovidRef} ~{bamFile} | \
+    samtools mpileup -aa -uf ~{sarsCovidRef} ~{bam} | \
     bcftools call --ploidy 1 -Mc | tee -a ~{vcfName} | \
     vcfutils.pl vcf2fq -d 10 | \
     seqtk seq -A - | sed '2~2s/[actg]/N/g' > ~{fastaName}
@@ -334,8 +332,7 @@ task qcStats {
   command <<<
     set -euo pipefail
 
-    bedtools coverage -hist -a ~{bed} \
-    -b ~{bam} > ~{sample}.cvghist.txt
+    bedtools coverage -hist -a ~{bed} -b ~{bam} > ~{sample}.cvghist.txt
 
     bedtools genomecov -ibam ~{bam} > ~{sample}.genomecvghist.txt
 
