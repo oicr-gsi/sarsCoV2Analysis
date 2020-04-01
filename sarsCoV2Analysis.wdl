@@ -8,6 +8,66 @@ workflow sarsCoV2Analysis {
     Boolean trimPrimers
   }
 
+  parameter_meta {
+    fastqR1: "Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome"
+    fastqR2: "Read 2 fastq file, gzipped. Optional."
+    samplePrefix: "Prefix for output files"
+    bed: "BED file containing the primers to be removed (e.g. ARTIC primers)"
+    trimPrimers: "Whether to remove primers used for virus selection"
+  }
+
+  meta {
+  	author: "Angie Mosquera"
+  	email: "amosquera@oicr.on.ca"
+  	description: "Classify samples as being either SARS-CoV-2 positive or negative, identify the strain of virus, and produce statistics about the mapping."
+  	dependencies: [
+    	{
+    	    name: "bbmap/38.75",
+    	    url: "https://sourceforge.net/projects/bbmap/"
+    	},
+      {
+    	    name: "bowtie2/2.3.5.1",
+    	    url: "https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.1.0/bowtie2-2.1.0-linux-x86_64.zi"
+    	},
+      {
+    	    name: "samtools/1.9",
+    	    url: "https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2"
+    	},
+      {
+    	    name: "kraken2/2.0.8",
+    	    url: "https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads"
+    	},
+      {
+    	    name: "ivar/1.0",
+    	    url: "https://github.com/andersen-lab/ivar"
+    	},
+      {
+    	    name: "bcftools/1.9",
+    	    url: "https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2"
+    	},
+      {
+    	    name: "vcftools/0.1.16",
+    	    url: "https://vcftools.github.io/downloads.html"
+    	},
+      {
+    	    name: "seqtk/1.3",
+    	    url: "https://github.com/lh3/seqtk/archive/v1.3.tar.gz"
+    	},
+      {
+    	    name: "bedtools/2.27",
+    	    url: "https://github.com/arq5x/bedtools2/releases/tag/v2.27.1"
+    	},
+      {
+    	    name: "blast/2.8.1",
+    	    url: "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.9.0/ncbi-blast-2.9.0+-x64-linux.tar.gz"
+    	},
+      {
+    	    name: "spades/3.14.0",
+    	    url: "http://cab.spbu.ru/files/release3.14.0/manual.html"
+    	}
+  	]
+  }
+
   call bbMap {
     input:
       fastq1 = fastq1,
@@ -138,8 +198,8 @@ task bowtie2HumanDepletion {
   }
 
   String hostMappedSam = "~{sample}.host.mapped.sam"
-  String hostMappedBam = "~{sample}.host.mapped.bam"
-  String hostMappedBai = "~{sample}.host.mapped.bam.bai"
+  String hostMappedBam_ = "~{sample}.host.mapped.bam"
+  String hostMappedBai_ = "~{sample}.host.mapped.bam.bai"
 
   command <<<
     set -euo pipefail
@@ -150,9 +210,9 @@ task bowtie2HumanDepletion {
     -S ~{hostMappedSam}
 
     samtools view -b ~{hostMappedSam} | \
-    samtools sort - -o ~{hostMappedBam}
+    samtools sort - -o ~{hostMappedBam_}
 
-    samtools index ~{hostMappedBam}
+    samtools index ~{hostMappedBam_}
   >>>
 
   runtime {
@@ -164,8 +224,8 @@ task bowtie2HumanDepletion {
   output {
     File out1 = "~{sample}_host_removed_r1.fastq.gz"
     File out2 = "~{sample}_host_removed_r2.fastq.gz"
-    File hostMappedBam = "~{hostMappedBam}"
-    File hostMappedBai = "~{hostMappedBai}"
+    File hostMappedBam = "~{hostMappedBam_}"
+    File hostMappedBai = "~{hostMappedBai_}"
   }
 }
 
@@ -210,16 +270,16 @@ task bowtie2Sensitive {
     Int timeout = 72
   }
 
-  String bamFile = "~{sample}.bam"
-  String baiFile = "~{sample}.bam.bai"
+  String bamFile_ = "~{sample}.bam"
+  String baiFile_ = "~{sample}.bam.bai"
 
   command <<<
     set -euo pipefail
 
     bowtie2 --sensitive-local -p 4 -x ~{sarsCovidIndex} \
-    -1 ~{fastq1} -2 ~{fastq2} | samtools view -b | samtools sort - -o ~{bamFile}
+    -1 ~{fastq1} -2 ~{fastq2} | samtools view -b | samtools sort - -o ~{bamFile_}
 
-    samtools index ~{bamFile}
+    samtools index ~{bamFile_}
   >>>
 
   runtime {
@@ -229,8 +289,8 @@ task bowtie2Sensitive {
   }
 
   output {
-    File bamFile = "~{bamFile}"
-    File baiFile = "~{baiFile}"
+    File bamFile = "~{bamFile_}"
+    File baiFile = "~{baiFile_}"
   }
 }
 
@@ -246,17 +306,17 @@ task articTrimming {
 
   String primertrim = "~{sample}.primertrim"
   String primertrimBam = "~{sample}.primertrim.bam"
-  String sortedBam = "~{sample}.primertrim.sorted.bam"
-  String sortedBai = "~{sample}.primertrim.sorted.bam.bai"
+  String sortedBam_ = "~{sample}.primertrim.sorted.bam"
+  String sortedBai_ = "~{sample}.primertrim.sorted.bam.bai"
 
   command <<<
     set -euo pipefail
 
     ivar trim -i ~{bam} -b ~{articBed} -p ~{primertrim}
 
-    samtools sort ~{primertrimBam} -o ~{sortedBam}
+    samtools sort ~{primertrimBam} -o ~{sortedBam_}
 
-    samtools index ~{sortedBam}
+    samtools index ~{sortedBam_}
 
     bedtools coverage -hist -a ~{articBed} -b ~{bam} > ~{sample}.cvghist.txt
   >>>
@@ -268,8 +328,8 @@ task articTrimming {
   }
 
   output {
-    File? sortedBam = "~{sortedBam}"
-    File? sortedBai = "~{sortedBai}"
+    File? sortedBam = "~{sortedBam_}"
+    File? sortedBai = "~{sortedBai_}"
     File? cvgHist = "~{sample}.cvghist.txt"
   }
 }
@@ -286,7 +346,7 @@ task variantCalling {
 
   String vcfName = "~{sample}.vcf"
   String fastaName = "~{sample}.consensus.fasta"
-  String variantOnlyVcf = "~{sample}.v.vcf"
+  String variantOnlyVcf_ = "~{sample}.v.vcf"
 
   command <<<
     set -euo pipefail
@@ -298,7 +358,7 @@ task variantCalling {
 
     bcftools mpileup -a "INFO/AD,FORMAT/DP,FORMAT/AD" \
     -d 8000 -f ~{sarsCovidRef} ~{sample}.bam | \
-    tee ~{sample}.m.vcf | bcftools call --ploidy 1 -m -v > ~{variantOnlyVcf}
+    tee ~{sample}.m.vcf | bcftools call --ploidy 1 -m -v > ~{variantOnlyVcf_}
   >>>
 
   runtime {
@@ -310,7 +370,7 @@ task variantCalling {
   output {
     File vcfFile = "~{vcfName}"
     File consensusFasta = "~{fastaName}"
-    File variantOnlyVcf = "~{variantOnlyVcf}"
+    File variantOnlyVcf = "~{variantOnlyVcf_}"
   }
 }
 
