@@ -356,7 +356,7 @@ task variantCalling {
     seqtk seq -A - | sed '2~2s/[actg]/N/g' > ~{fastaName}
 
     bcftools mpileup -a "INFO/AD,FORMAT/DP,FORMAT/AD" \
-    -d 8000 -f ~{sarsCovidRef} ~{sample}.bam | \
+    -d 8000 -f ~{sarsCovidRef} ~{bam} | \
     tee ~{sample}.m.vcf | bcftools call --ploidy 1 -m -v > ~{variantOnlyVcf_}
   >>>
 
@@ -452,6 +452,8 @@ task spadesGenomicAssembly {
     mkdir ~{sample}.SPAdes
 
     rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+
+    tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}.SPAdes.tar.gz
   >>>
 
   runtime {
@@ -461,6 +463,6 @@ task spadesGenomicAssembly {
   }
 
   output {
-    File sampleSPAdes = "~{sample}.SPAdes"
+    File sampleSPAdes = "~{sample}.SPAdes.tar.gz"
   }
 }
