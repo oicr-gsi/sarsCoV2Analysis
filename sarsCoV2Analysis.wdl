@@ -1,18 +1,17 @@
 version 1.0
 
-workflow SARSCoV2Analysis {
+workflow sarsCoV2Analysis {
   input {
-    File fastqR1
-    File? fastqR2
+    File fastq1
+    File fastq2
     String samplePrefix
-    File bed
     Boolean trimPrimers
   }
 
   call bbMap {
     input:
-      fastq1 = fastqR1,
-      fastq2 = fastqR2,
+      fastq1 = fastq1,
+      fastq2 = fastq2,
       sample = samplePrefix
   }
 
@@ -53,7 +52,6 @@ workflow SARSCoV2Analysis {
 
   call qcStats {
     input:
-      bed = bed,
       sample = samplePrefix,
       bam = select_first([articTrimming.sortedBam, bowtie2Sensitive.bamFile]),
       hostMappedBam = bowtie2HumanDepletion.hostMappedBam
@@ -81,11 +79,11 @@ workflow SARSCoV2Analysis {
     File bai = bowtie2Sensitive.baiFile
     File? primertrimSortedBam = articTrimming.sortedBam
     File? primertrimSortedBai = articTrimming.sortedBai
+    File? cvgHist = articTrimming.cvgHist
     File vcf = variantCalling.vcfFile
     File consensusFasta = variantCalling.consensusFasta
     File variantOnlyVcf = variantCalling.variantOnlyVcf
     File bl2seqReport = blast2ReferenceSequence.bl2seqReport
-    File cvgHist = qcStats.cvgHist
     File genomecvgHist = qcStats.genomecvgHist
     File genomecvgPerBase = qcStats.genomecvgPerBase
     File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
@@ -212,19 +210,14 @@ task bowtie2Sensitive {
     Int timeout = 72
   }
 
-  String samFile = "~{sample}.sam"
   String bamFile = "~{sample}.bam"
   String baiFile = "~{sample}.bam.bai"
 
   command <<<
     set -euo pipefail
 
-    bowtie2 --sensitive-local -p 4 \
-    -x ~{sarsCovidIndex} \
-    -1 ~{fastq1} -2 ~{fastq2} \
-    -S ~{samFile}
-
-    samtools view -b ~{samFile} | samtools sort - -o ~{bamFile}
+    bowtie2 --sensitive-local -p 4 -x ~{sarsCovidIndex} \
+    -1 ~{fastq1} -2 ~{fastq2} | samtools view -b | samtools sort - -o ~{bamFile}
 
     samtools index ~{bamFile}
   >>>
@@ -243,7 +236,7 @@ task bowtie2Sensitive {
 
 task articTrimming {
   input {
-    String modules = "ivar/1.0"
+    String modules = "ivar/1.0 bedtools"
     File bam
     String sample
     String articBed = "/.mounts/labs/gsiprojects/genomics/SCTSK/analysis/bed/ARTIC-V2.bed"
@@ -264,6 +257,8 @@ task articTrimming {
     samtools sort ~{primertrimBam} -o ~{sortedBam}
 
     samtools index ~{sortedBam}
+
+    bedtools coverage -hist -a ~{articBed} -b ~{bam} > ~{sample}.cvghist.txt
   >>>
 
   runtime {
@@ -275,6 +270,7 @@ task articTrimming {
   output {
     File? sortedBam = "~{sortedBam}"
     File? sortedBai = "~{sortedBai}"
+    File? cvgHist = "~{sample}.cvghist.txt"
   }
 }
 
@@ -322,7 +318,6 @@ task qcStats {
   input {
     String modules = "bedtools samtools/1.9"
     String sample
-    File bed
     File bam
     File hostMappedBam
     Int mem = 8
@@ -331,8 +326,6 @@ task qcStats {
 
   command <<<
     set -euo pipefail
-
-    bedtools coverage -hist -a ~{bed} -b ~{bam} > ~{sample}.cvghist.txt
 
     bedtools genomecov -ibam ~{bam} > ~{sample}.genomecvghist.txt
 
@@ -350,7 +343,6 @@ task qcStats {
   }
 
   output {
-    File cvgHist = "~{sample}.cvghist.txt"
     File genomecvgHist = "~{sample}.genomecvghist.txt"
     File genomecvgPerBase = "~{sample}.genome.cvgperbase.txt"
     File hostMappedAlignmentStats = "~{sample}.host.mapped.samstats.txt"

@@ -3,7 +3,7 @@
     "description": "SARS-CoV-2 Analysis workflow test",
     "metrics_calculate": "calculate.sh",
     "metrics_compare": "compare.sh",
-    "output_metrics_dir": "/.mounts/labs/gsi/testdata/SARSCoV2Analysis/output_metrics/1.0",
+    "output_metrics_dir": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/1.0",
     "parameters": {
       "wdl_options": {
         "write_to_cache": false,
@@ -16,10 +16,10 @@
       "id": "SRR11059944-test",
       "parameters": {
         "wdl_inputs": {
-          "SARSCoV2Analysis.fastqR1": "/.mounts/labs/gsi/testdata/SARSCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
-          "SARSCoV2Analysis.fastqR2": "/.mounts/labs/gsi/testdata/SARSCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
-          "SARSCoV2Analysis.samplePrefix": "SRR11059944",
-          "SARSCoV2Analysis.trimPrimers": true
+          "sarsCoV2Analysis.fastqR1": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
+          "sarsCoV2Analysis.fastqR2": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
+          "sarsCoV2Analysis.samplePrefix": "SRR11059944",
+          "sarsCoV2Analysis.trimPrimers": true
         }
       }
     }
