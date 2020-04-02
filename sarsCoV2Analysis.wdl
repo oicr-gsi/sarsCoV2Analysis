@@ -5,6 +5,7 @@ workflow sarsCoV2Analysis {
     File fastq1
     File fastq2
     String samplePrefix
+    Boolean trimPrimers
   }
 
   parameter_meta {
