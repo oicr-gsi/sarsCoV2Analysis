@@ -5,7 +5,6 @@ workflow sarsCoV2Analysis {
     File fastq1
     File fastq2
     String samplePrefix
-    Boolean trimPrimers
   }
 
   parameter_meta {
@@ -298,7 +297,8 @@ task articTrimming {
     String modules = "ivar/1.0 bedtools"
     File bam
     String sample
-    String articBed = "/.mounts/labs/gsiprojects/genomics/SCTSK/analysis/bed/ARTIC-V2.bed"
+    String primerBed
+    String ampliconBed
     Int mem = 8
     Int timeout = 72
   }
@@ -311,13 +311,13 @@ task articTrimming {
   command <<<
     set -euo pipefail
 
-    ivar trim -i ~{bam} -b ~{articBed} -p ~{primertrim}
+    ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim}
 
     samtools sort ~{primertrimBam} -o ~{sortedBam_}
 
     samtools index ~{sortedBam_}
 
-    bedtools coverage -hist -a ~{articBed} -b ~{bam} > ~{sample}.cvghist.txt
+    bedtools coverage -hist -a ~{ampliconBed} -b ~{bam} > ~{sample}.cvghist.txt
   >>>
 
   runtime {
