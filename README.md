@@ -1,4 +1,4 @@
-# SARSCoV2Analysis
+# sarsCoV2Analysis
 
 Classify samples as being either SARS-CoV-2 positive or negative, identify the strain of virus, and produce statistics about the mapping.
 
@@ -23,7 +23,7 @@ Classify samples as being either SARS-CoV-2 positive or negative, identify the s
 
 ### Cromwell
 ```
-java -jar cromwell.jar run SARSCoV2Analysis.wdl --inputs inputs.json
+java -jar cromwell.jar run sarsCoV2Analysis.wdl --inputs inputs.json
 ```
 
 ### Inputs
@@ -31,16 +31,10 @@ java -jar cromwell.jar run SARSCoV2Analysis.wdl --inputs inputs.json
 #### Required workflow parameters:
 Parameter|Value|Description
 ---|---|---
-`fastqR1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome
+`fastq1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome
+`fastq2`|File|Read 2 fastq file, gzipped. 
 `samplePrefix`|String|Prefix for output files
-`bed`|File|BED file containing the primers to be removed (e.g. ARTIC primers)
 `trimPrimers`|Boolean|Whether to remove primers used for virus selection
-
-
-#### Optional workflow parameters:
-Parameter|Value|Default|Description
----|---|---|---
-`fastqR2`|File?|None|Read 2 fastq file, gzipped. Optional.
 
 
 #### Optional task parameters:

@@ -9,10 +9,9 @@ workflow sarsCoV2Analysis {
   }
 
   parameter_meta {
-    fastqR1: "Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome"
-    fastqR2: "Read 2 fastq file, gzipped. Optional."
+    fastq1: "Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome"
+    fastq2: "Read 2 fastq file, gzipped. Optional."
     samplePrefix: "Prefix for output files"
-    bed: "BED file containing the primers to be removed (e.g. ARTIC primers)"
     trimPrimers: "Whether to remove primers used for virus selection"
   }
 
