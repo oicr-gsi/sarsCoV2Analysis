@@ -5,7 +5,8 @@ workflow sarsCoV2Analysis {
     File fastq1
     File fastq2
     String samplePrefix
-    Boolean trimPrimers
+    File? primerBed
+    File? ampliconBed
   }
 
   parameter_meta {
@@ -95,11 +96,13 @@ workflow sarsCoV2Analysis {
       sample = samplePrefix
   }
 
-  if (trimPrimers) {
+  if (defined(primerBed) && defined(ampliconBed)) {
     call articTrimming {
       input:
         bam = bowtie2Sensitive.bamFile,
-        sample = samplePrefix
+        sample = samplePrefix,
+        primerBed = select_first([primerBed]),
+        ampliconBed = select_first([ampliconBed])
     }
   }
 
@@ -156,7 +159,7 @@ task bbMap {
     String modules = "bbmap/38.75"
     String bbMap = "bbmap"
     File fastq1
-    File? fastq2
+    File fastq2
     String sample
     String reference = "$BBMAP_ROOT/share/bbmap/resources/adapters.fa"
     Int trimq = 25
@@ -297,9 +300,9 @@ task articTrimming {
   input {
     String modules = "ivar/1.0 bedtools"
     File bam
+    File primerBed
+    File ampliconBed
     String sample
-    String primerBed
-    String ampliconBed
     Int mem = 8
     Int timeout = 72
   }
@@ -318,7 +321,7 @@ task articTrimming {
 
     samtools index ~{sortedBam_}
 
-    bedtools coverage -hist -a ~{ampliconBed} -b ~{bam} > ~{sample}.cvghist.txt
+    bedtools coverage -hist -a ~{ampliconBed} -b ~{sortedBam_} > ~{sample}.cvghist.txt
   >>>
 
   runtime {
