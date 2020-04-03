@@ -10,12 +10,12 @@
         <relativePath/>
     </parent>
 
-    <artifactId>SARSCoV2Analysis</artifactId>
+    <artifactId>sarsCoV2Analysis</artifactId>
     <version>1.0</version>
 
     <properties>
         <workflow-description>Management of data generated from samples for testing of SARS-CoV-2</workflow-description>
-        <wdl-workflow>SARSCoV2Analysis.wdl</wdl-workflow>
+        <wdl-workflow>sarsCoV2Analysis.wdl</wdl-workflow>
         <test-basedir>tests/</test-basedir>
     </properties>
 
