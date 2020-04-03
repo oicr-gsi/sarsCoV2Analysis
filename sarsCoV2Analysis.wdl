@@ -257,7 +257,7 @@ task kraken2 {
   }
 
   output {
-    File out = "~{sample}.kreport2"
+    File out = "~{sample}.kreport2.txt"
   }
 }
 
@@ -415,8 +415,8 @@ task qcStats {
 
 task blast2ReferenceSequence {
   input {
-    String modules = "blast"
-    String reference = "/.mounts/labs/gsiprojects/gsi/covid19/ref/MN908947.3.fasta"
+    String modules = "blast sars-covid-2/mn908947.3"
+    String reference = "$SARS_COVID_2_ROOT/MN908947.3.fasta"
     File consensusFasta
     Int mem = 8
     Int timeout = 72
@@ -426,7 +426,7 @@ task blast2ReferenceSequence {
     set -euo pipefail
 
     blastn -query ~{consensusFasta} -subject ~{reference} \
-    -word_size 28 -reward 1 -penalty -2 -dust no > bl2seq_report
+    -word_size 28 -reward 1 -penalty -2 -dust no > bl2seq_report.txt
   >>>
 
   runtime {
@@ -436,7 +436,7 @@ task blast2ReferenceSequence {
   }
 
   output {
-    File bl2seqReport = "bl2seq_report"
+    File bl2seqReport = "bl2seq_report.txt"
   }
 }
 
