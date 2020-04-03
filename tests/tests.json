@@ -45,16 +45,6 @@
           "sarsCoV2Analysis.ampliconBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V3.bed"
         }
       }
-    },
-    {
-      "id": "SWID_16560790_TGL57_0002_nn_n_PE_305_WT_HELA_VIRUS_LIB13_40ng_C3_200328_NB551051_0159_AHCFGVBGXF_ATTACTCG-TCAGAGCC_L001-test",
-      "parameters": {
-        "wdl_inputs": {
-          "sarsCoV2Analysis.fastq1": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SWID_16560790_TGL57_0002_nn_n_PE_305_WT_HELA_VIRUS_LIB13_40ng_C3_200328_NB551051_0159_AHCFGVBGXF_ATTACTCG-TCAGAGCC_L001_R1_001.fastq.gz",
-          "sarsCoV2Analysis.fastq2": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SWID_16560790_TGL57_0002_nn_n_PE_305_WT_HELA_VIRUS_LIB13_40ng_C3_200328_NB551051_0159_AHCFGVBGXF_ATTACTCG-TCAGAGCC_L001_R2_001.fastq.gz",
-          "sarsCoV2Analysis.samplePrefix": "SWID_16560790_TGL57_0002_nn_n_PE_305_WT_HELA_VIRUS_LIB13_40ng_C3_200328_NB551051_0159_AHCFGVBGXF_ATTACTCG-TCAGAGCC_L001"
-        }
-      }
     }
   ]
 }

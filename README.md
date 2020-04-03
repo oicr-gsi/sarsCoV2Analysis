@@ -4,6 +4,8 @@ Classify samples as being either SARS-CoV-2 positive or negative, identify the s
 
 ## Overview
 
+![Alt text](docs/SARSCoVAnalysisSummary.png?raw=true)
+
 ## Dependencies
 
 * [bbmap 38.75](https://sourceforge.net/projects/bbmap/)
@@ -32,9 +34,15 @@ java -jar cromwell.jar run sarsCoV2Analysis.wdl --inputs inputs.json
 Parameter|Value|Description
 ---|---|---
 `fastq1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome
-`fastq2`|File|Read 2 fastq file, gzipped. 
+`fastq2`|File|Read 2 fastq file, gzipped. Optional.
 `samplePrefix`|String|Prefix for output files
-`trimPrimers`|Boolean|Whether to remove primers used for virus selection
+
+
+#### Optional workflow parameters:
+Parameter|Value|Default|Description
+---|---|---|---
+`primerBed`|File?|None|
+`ampliconBed`|File?|None|
 
 
 #### Optional task parameters:
@@ -58,8 +66,7 @@ Parameter|Value|Default|Description
 `bowtie2Sensitive.sarsCovidIndex`|String|"$SARS_COVID_2_BOWTIE_INDEX_ROOT/MN908947.3"|
 `bowtie2Sensitive.mem`|Int|8|
 `bowtie2Sensitive.timeout`|Int|72|
-`articTrimming.modules`|String|"ivar/1.0"|
-`articTrimming.articBed`|String|"/.mounts/labs/gsiprojects/genomics/SCTSK/analysis/bed/ARTIC-V2.bed"|
+`articTrimming.modules`|String|"ivar/1.0 bedtools"|
 `articTrimming.mem`|Int|8|
 `articTrimming.timeout`|Int|72|
 `variantCalling.modules`|String|"bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-bowtie-index/2.3.5.1 sars-covid-2/mn908947.3"|
@@ -69,8 +76,8 @@ Parameter|Value|Default|Description
 `qcStats.modules`|String|"bedtools samtools/1.9"|
 `qcStats.mem`|Int|8|
 `qcStats.timeout`|Int|72|
-`blast2ReferenceSequence.modules`|String|"blast"|
-`blast2ReferenceSequence.reference`|String|"/.mounts/labs/gsiprojects/gsi/covid19/ref/MN908947.3.fasta"|
+`blast2ReferenceSequence.modules`|String|"blast sars-covid-2/mn908947.3"|
+`blast2ReferenceSequence.reference`|String|"$SARS_COVID_2_ROOT/MN908947.3.fasta"|
 `blast2ReferenceSequence.mem`|Int|8|
 `blast2ReferenceSequence.timeout`|Int|72|
 `spadesGenomicAssembly.modules`|String|"spades/3.14.0"|
@@ -91,11 +98,11 @@ Output | Type | Description
 `bai`|File|None
 `primertrimSortedBam`|File?|None
 `primertrimSortedBai`|File?|None
+`cvgHist`|File?|None
 `vcf`|File|None
 `consensusFasta`|File|None
 `variantOnlyVcf`|File|None
 `bl2seqReport`|File|None
-`cvgHist`|File|None
 `genomecvgHist`|File|None
 `genomecvgPerBase`|File|None
 `hostMappedAlignmentStats`|File|None
