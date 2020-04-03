@@ -247,7 +247,7 @@ task kraken2 {
 
     kraken2 --paired ~{fastq1} ~{fastq2} \
     --db ~{kraken2DB} \
-    --report ~{sample}.kreport2
+    --report ~{sample}.kreport2.txt
   >>>
 
   runtime {
