@@ -33,8 +33,8 @@ java -jar cromwell.jar run sarsCoV2Analysis.wdl --inputs inputs.json
 #### Required workflow parameters:
 Parameter|Value|Description
 ---|---|---
-`fastq1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome
-`fastq2`|File|Read 2 fastq file, gzipped. Optional.
+`fastq1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome.
+`fastq2`|File|Read 2 fastq file, gzipped. Can be either targeted or whole transcriptome.
 `samplePrefix`|String|Prefix for output files
 
 
