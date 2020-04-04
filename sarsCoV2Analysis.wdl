@@ -24,43 +24,43 @@ workflow sarsCoV2Analysis {
     	    name: "bbmap/38.75",
     	    url: "https://sourceforge.net/projects/bbmap/"
     	},
-      {
+        {
     	    name: "bowtie2/2.3.5.1",
     	    url: "https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.1.0/bowtie2-2.1.0-linux-x86_64.zi"
     	},
-      {
+        {
     	    name: "samtools/1.9",
     	    url: "https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2"
     	},
-      {
+        {
     	    name: "kraken2/2.0.8",
     	    url: "https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads"
     	},
-      {
+        {
     	    name: "ivar/1.0",
     	    url: "https://github.com/andersen-lab/ivar"
     	},
-      {
+        {
     	    name: "bcftools/1.9",
     	    url: "https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2"
     	},
-      {
+        {
     	    name: "vcftools/0.1.16",
     	    url: "https://vcftools.github.io/downloads.html"
     	},
-      {
+        {
     	    name: "seqtk/1.3",
     	    url: "https://github.com/lh3/seqtk/archive/v1.3.tar.gz"
     	},
-      {
+        {
     	    name: "bedtools/2.27",
     	    url: "https://github.com/arq5x/bedtools2/releases/tag/v2.27.1"
     	},
-      {
+        {
     	    name: "blast/2.8.1",
     	    url: "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.9.0/ncbi-blast-2.9.0+-x64-linux.tar.gz"
     	},
-      {
+        {
     	    name: "spades/3.14.0",
     	    url: "http://cab.spbu.ru/files/release3.14.0/manual.html"
     	}
