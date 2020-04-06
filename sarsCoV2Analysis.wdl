@@ -168,6 +168,8 @@ task bbMap {
   command <<<
     set -euo pipefail
 
+    #Remove adapters and quality trim
+
     bbmap bbduk in1=~{fastq1} in2=~{fastq2} \
     out1=~{sample}_qad_r1.fastq.gz out2=~{sample}_qad_r2.fastq.gz \
     ref=~{reference} \
@@ -195,21 +197,21 @@ task bowtie2HumanDepletion {
     String sample
     Int mem = 12
     Int timeout = 72
+    Int threads = 8
   }
 
-  String hostMappedSam = "~{sample}.host.mapped.sam"
   String hostMappedBam_ = "~{sample}.host.mapped.bam"
   String hostMappedBai_ = "~{sample}.host.mapped.bam.bai"
 
   command <<<
     set -euo pipefail
 
-    bowtie2 --quiet -x ~{reference} \
-    -1 ~{fastq1} -2 ~{fastq2} \
-    --un-conc-gz ~{sample}_host_removed_r%.fastq.gz \
-    -S ~{hostMappedSam}
+    #Align fastq files to hg38 & only keep unmapped
 
-    samtools view -b ~{hostMappedSam} | \
+    bowtie2 -p ~{threads} -x ~{reference} \
+    -1 ~{fastq1} -2 ~{fastq2} \
+    --un-conc-gz ~{sample}_host_removed_r%.fastq.gz | \
+    samtools view -b | \
     samtools sort - -o ~{hostMappedBam_}
 
     samtools index ~{hostMappedBam_}
@@ -261,13 +263,14 @@ task kraken2 {
 
 task bowtie2Sensitive {
   input {
-    String modules = "bowtie2/2.3.5.1 sars-covid-2-bowtie-index/2.3.5.1 samtools/1.9"
+    String modules = "bowtie2/2.3.5.1 sars-covid-2-polymasked-bowtie-index/2.3.5.1 samtools/1.9"
     File fastq1
     File fastq2
     String sample
-    String sarsCovidIndex = "$SARS_COVID_2_BOWTIE_INDEX_ROOT/MN908947.3"
+    String sarsCovidIndex = "$SARS_COVID_2_POLYMASKED_BOWTIE_INDEX_ROOT/MN908947.3"
     Int mem = 8
     Int timeout = 72
+    Int threads = 4
   }
 
   String bamFile_ = "~{sample}.bam"
@@ -276,7 +279,9 @@ task bowtie2Sensitive {
   command <<<
     set -euo pipefail
 
-    bowtie2 --sensitive-local -p 4 -x ~{sarsCovidIndex} \
+    #Align reads to reference
+
+    bowtie2 --sensitive-local -p ~{threads} -x ~{sarsCovidIndex} \
     -1 ~{fastq1} -2 ~{fastq2} | samtools view -b | samtools sort - -o ~{bamFile_}
 
     samtools index ~{bamFile_}
@@ -337,10 +342,10 @@ task articTrimming {
 
 task variantCalling {
   input {
-    String modules = "bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-bowtie-index/2.3.5.1 sars-covid-2/mn908947.3"
+    String modules = "bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-polymasked/mn908947.3"
     File bam
     String sample
-    String sarsCovidRef = "$SARS_COVID_2_ROOT/MN908947.3.fasta"
+    String sarsCovidRef = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"
     Int mem = 8
     Int timeout = 72
   }
@@ -352,6 +357,7 @@ task variantCalling {
   command <<<
     set -euo pipefail
 
+    #Call consensus sequence
     samtools mpileup -aa -uf ~{sarsCovidRef} ~{bam} | \
     bcftools call --ploidy 1 -Mc | tee -a ~{vcfName} | \
     vcfutils.pl vcf2fq -d 10 | \
@@ -413,8 +419,8 @@ task qcStats {
 
 task blast2ReferenceSequence {
   input {
-    String modules = "blast sars-covid-2/mn908947.3"
-    String reference = "$SARS_COVID_2_ROOT/MN908947.3.fasta"
+    String modules = "blast sars-covid-2-polymasked/mn908947.3"
+    String reference = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"
     File consensusFasta
     Int mem = 8
     Int timeout = 72

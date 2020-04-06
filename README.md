@@ -33,7 +33,7 @@ java -jar cromwell.jar run sarsCoV2Analysis.wdl --inputs inputs.json
 #### Required workflow parameters:
 Parameter|Value|Description
 ---|---|---
-`fastq1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome.
+`fastq1`|File|Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome
 `fastq2`|File|Read 2 fastq file, gzipped. Can be either targeted or whole transcriptome.
 `samplePrefix`|String|Prefix for output files
 
@@ -57,26 +57,28 @@ Parameter|Value|Default|Description
 `bowtie2HumanDepletion.reference`|String|"$HG38_BOWTIE_INDEX_ROOT/hg38_random_index"|
 `bowtie2HumanDepletion.mem`|Int|12|
 `bowtie2HumanDepletion.timeout`|Int|72|
+`bowtie2HumanDepletion.threads`|Int|8|
 `kraken2.modules`|String|"kraken2/2.0.8 kraken2-database/1"|
 `kraken2.kraken2DB`|String|"$KRAKEN2_DATABASE_ROOT/"|
 `kraken2.mem`|Int|8|
 `kraken2.timeout`|Int|72|
-`bowtie2Sensitive.modules`|String|"bowtie2/2.3.5.1 sars-covid-2-bowtie-index/2.3.5.1 samtools/1.9"|
-`bowtie2Sensitive.sarsCovidIndex`|String|"$SARS_COVID_2_BOWTIE_INDEX_ROOT/MN908947.3"|
+`bowtie2Sensitive.modules`|String|"bowtie2/2.3.5.1 sars-covid-2-polymasked-bowtie-index/2.3.5.1 samtools/1.9"|
+`bowtie2Sensitive.sarsCovidIndex`|String|"$SARS_COVID_2_POLYMASKED_BOWTIE_INDEX_ROOT/MN908947.3"|
 `bowtie2Sensitive.mem`|Int|8|
 `bowtie2Sensitive.timeout`|Int|72|
+`bowtie2Sensitive.threads`|Int|4|
 `articTrimming.modules`|String|"ivar/1.0 bedtools"|
 `articTrimming.mem`|Int|8|
 `articTrimming.timeout`|Int|72|
-`variantCalling.modules`|String|"bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-bowtie-index/2.3.5.1 sars-covid-2/mn908947.3"|
-`variantCalling.sarsCovidRef`|String|"$SARS_COVID_2_ROOT/MN908947.3.fasta"|
+`variantCalling.modules`|String|"bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-polymasked/mn908947.3"|
+`variantCalling.sarsCovidRef`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"|
 `variantCalling.mem`|Int|8|
 `variantCalling.timeout`|Int|72|
 `qcStats.modules`|String|"bedtools samtools/1.9"|
 `qcStats.mem`|Int|8|
 `qcStats.timeout`|Int|72|
-`blast2ReferenceSequence.modules`|String|"blast sars-covid-2/mn908947.3"|
-`blast2ReferenceSequence.reference`|String|"$SARS_COVID_2_ROOT/MN908947.3.fasta"|
+`blast2ReferenceSequence.modules`|String|"blast sars-covid-2-polymasked/mn908947.3"|
+`blast2ReferenceSequence.reference`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"|
 `blast2ReferenceSequence.mem`|Int|8|
 `blast2ReferenceSequence.timeout`|Int|72|
 `spadesGenomicAssembly.modules`|String|"spades/3.14.0"|
