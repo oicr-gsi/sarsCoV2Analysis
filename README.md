@@ -63,7 +63,7 @@ Parameter|Value|Default|Description
 `kraken2.mem`|Int|8|
 `kraken2.timeout`|Int|72|
 `bowtie2Sensitive.modules`|String|"bowtie2/2.3.5.1 sars-covid-2-polymasked-bowtie-index/2.3.5.1 samtools/1.9"|
-`bowtie2Sensitive.sarsCovidIndex`|String|"$SARS_COVID_2_POLYMASKED_BOWTIE_INDEX_ROOT/MN908947.3"|
+`bowtie2Sensitive.sarsCovidIndex`|String|"$SARS_COVID_2_POLYMASKED_BOWTIE_INDEX_ROOT/MN908947.3.mask"|
 `bowtie2Sensitive.mem`|Int|8|
 `bowtie2Sensitive.timeout`|Int|72|
 `bowtie2Sensitive.threads`|Int|4|
@@ -71,14 +71,14 @@ Parameter|Value|Default|Description
 `articTrimming.mem`|Int|8|
 `articTrimming.timeout`|Int|72|
 `variantCalling.modules`|String|"bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-polymasked/mn908947.3"|
-`variantCalling.sarsCovidRef`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"|
+`variantCalling.sarsCovidRef`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.mask.fasta"|
 `variantCalling.mem`|Int|8|
 `variantCalling.timeout`|Int|72|
 `qcStats.modules`|String|"bedtools samtools/1.9"|
 `qcStats.mem`|Int|8|
 `qcStats.timeout`|Int|72|
 `blast2ReferenceSequence.modules`|String|"blast sars-covid-2-polymasked/mn908947.3"|
-`blast2ReferenceSequence.reference`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"|
+`blast2ReferenceSequence.reference`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.mask.fasta"|
 `blast2ReferenceSequence.mem`|Int|8|
 `blast2ReferenceSequence.timeout`|Int|72|
 `spadesGenomicAssembly.modules`|String|"spades/3.14.0"|

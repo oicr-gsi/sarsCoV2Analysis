@@ -267,7 +267,7 @@ task bowtie2Sensitive {
     File fastq1
     File fastq2
     String sample
-    String sarsCovidIndex = "$SARS_COVID_2_POLYMASKED_BOWTIE_INDEX_ROOT/MN908947.3"
+    String sarsCovidIndex = "$SARS_COVID_2_POLYMASKED_BOWTIE_INDEX_ROOT/MN908947.3.mask"
     Int mem = 8
     Int timeout = 72
     Int threads = 4
@@ -345,7 +345,7 @@ task variantCalling {
     String modules = "bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-polymasked/mn908947.3"
     File bam
     String sample
-    String sarsCovidRef = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"
+    String sarsCovidRef = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.mask.fasta"
     Int mem = 8
     Int timeout = 72
   }
@@ -420,7 +420,7 @@ task qcStats {
 task blast2ReferenceSequence {
   input {
     String modules = "blast sars-covid-2-polymasked/mn908947.3"
-    String reference = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.fasta"
+    String reference = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.mask.fasta"
     File consensusFasta
     Int mem = 8
     Int timeout = 72
