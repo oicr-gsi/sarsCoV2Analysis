@@ -156,7 +156,6 @@ workflow sarsCoV2Analysis {
 task bbMap {
   input {
     String modules = "bbmap/38.75"
-    String bbMap = "bbmap"
     File fastq1
     File fastq2
     String sample

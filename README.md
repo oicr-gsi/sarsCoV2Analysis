@@ -49,7 +49,6 @@ Parameter|Value|Default|Description
 Parameter|Value|Default|Description
 ---|---|---|---
 `bbMap.modules`|String|"bbmap/38.75"|
-`bbMap.bbMap`|String|"bbmap"|
 `bbMap.reference`|String|"$BBMAP_ROOT/share/bbmap/resources/adapters.fa"|
 `bbMap.trimq`|Int|25|
 `bbMap.mem`|Int|8|
