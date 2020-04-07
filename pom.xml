@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>sarsCoV2Analysis</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <workflow-description>Management of data generated from samples for testing of SARS-CoV-2</workflow-description>
