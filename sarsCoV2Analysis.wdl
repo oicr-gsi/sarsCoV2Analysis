@@ -429,8 +429,18 @@ task blast2ReferenceSequence {
   command <<<
     set -euo pipefail
 
-    blastn -query ~{consensusFasta} -subject ~{reference} \
-    -word_size 28 -reward 1 -penalty -2 -dust no > bl2seq_report.txt
+    # Suppress error for negative controls or samples with very little reads
+    if blastn -query ~{consensusFasta} -subject ~{reference} \
+    -word_size 28 -reward 1 -penalty -2 -dust no > bl2seq_report.txt 2>error.log; then
+        echo 'blastn completed successfully' 1>&2
+    elif grep -q -F 'BLAST engine error: Warning: Sequence contains no data' error.log; then
+        # Copy the message to STDERR, and exit without an error status
+        cat error.log 1>&2
+    else
+        echo 'Unexpected error' 1>&2
+        cat error.log 1>&2
+        exit 1
+    fi
   >>>
 
   runtime {
