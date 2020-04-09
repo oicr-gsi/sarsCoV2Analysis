@@ -120,7 +120,8 @@ workflow sarsCoV2Analysis {
 
   call blast2ReferenceSequence {
     input:
-      consensusFasta = variantCalling.consensusFasta
+      consensusFasta = variantCalling.consensusFasta,
+      sample = samplePrefix
   }
 
   call spadesGenomicAssembly {
@@ -422,6 +423,7 @@ task blast2ReferenceSequence {
     String modules = "blast sars-covid-2-polymasked/mn908947.3"
     String reference = "$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.mask.fasta"
     File consensusFasta
+    String sample
     Int mem = 8
     Int timeout = 72
   }
@@ -431,7 +433,7 @@ task blast2ReferenceSequence {
 
     # Suppress error for negative controls or samples with very little reads
     if blastn -query ~{consensusFasta} -subject ~{reference} \
-    -word_size 28 -reward 1 -penalty -2 -dust no > bl2seq_report.txt 2>error.log; then
+    -word_size 28 -reward 1 -penalty -2 -dust no > ~{sample}_bl2seq_report.txt 2>error.log; then
         echo 'blastn completed successfully' 1>&2
     elif grep -q -F 'BLAST engine error: Warning: Sequence contains no data' error.log; then
         # Copy the message to STDERR, and exit without an error status
@@ -450,7 +452,7 @@ task blast2ReferenceSequence {
   }
 
   output {
-    File bl2seqReport = "bl2seq_report.txt"
+    File bl2seqReport = "~{sample}_bl2seq_report.txt"
   }
 }
 
