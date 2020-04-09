@@ -392,7 +392,7 @@ task qcStats {
   command <<<
     set -euo pipefail
 
-    if [ -f ~{panelBed} ]; then
+    if [ -f "~{panelBed}" ]; then
       bedtools coverage -hist -a ~{panelBed} -b ~{bam} > ~{sample}.cvghist.txt
     fi
 
