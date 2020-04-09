@@ -42,7 +42,7 @@ Parameter|Value|Description
 Parameter|Value|Default|Description
 ---|---|---|---
 `primerBed`|File?|None|
-`ampliconBed`|File?|None|
+`panelBed`|File?|None|
 
 
 #### Optional task parameters:

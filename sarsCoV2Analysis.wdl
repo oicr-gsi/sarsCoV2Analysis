@@ -6,7 +6,7 @@ workflow sarsCoV2Analysis {
     File fastq2
     String samplePrefix
     File? primerBed
-    File? ampliconBed
+    File? panelBed
   }
 
   parameter_meta {
@@ -95,13 +95,12 @@ workflow sarsCoV2Analysis {
       sample = samplePrefix
   }
 
-  if (defined(primerBed) && defined(ampliconBed)) {
+  if (defined(primerBed)) {
     call articTrimming {
       input:
         bam = bowtie2Sensitive.bamFile,
         sample = samplePrefix,
-        primerBed = select_first([primerBed]),
-        ampliconBed = select_first([ampliconBed])
+        primerBed = select_first([primerBed])
     }
   }
 
@@ -115,7 +114,8 @@ workflow sarsCoV2Analysis {
     input:
       sample = samplePrefix,
       bam = select_first([articTrimming.sortedBam, bowtie2Sensitive.bamFile]),
-      hostMappedBam = bowtie2HumanDepletion.hostMappedBam
+      hostMappedBam = bowtie2HumanDepletion.hostMappedBam,
+      panelBed = panelBed
   }
 
   call blast2ReferenceSequence {
@@ -141,11 +141,11 @@ workflow sarsCoV2Analysis {
     File bai = bowtie2Sensitive.baiFile
     File? primertrimSortedBam = articTrimming.sortedBam
     File? primertrimSortedBai = articTrimming.sortedBai
-    File? cvgHist = articTrimming.cvgHist
     File vcf = variantCalling.vcfFile
     File consensusFasta = variantCalling.consensusFasta
     File variantOnlyVcf = variantCalling.variantOnlyVcf
     File bl2seqReport = blast2ReferenceSequence.bl2seqReport
+    File? cvgHist = qcStats.cvgHist
     File genomecvgHist = qcStats.genomecvgHist
     File genomecvgPerBase = qcStats.genomecvgPerBase
     File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
@@ -305,7 +305,6 @@ task articTrimming {
     String modules = "ivar/1.0 bedtools"
     File bam
     File primerBed
-    File ampliconBed
     String sample
     Int mem = 8
     Int timeout = 72
@@ -324,8 +323,6 @@ task articTrimming {
     samtools sort ~{primertrimBam} -o ~{sortedBam_}
 
     samtools index ~{sortedBam_}
-
-    bedtools coverage -hist -a ~{ampliconBed} -b ~{sortedBam_} > ~{sample}.cvghist.txt
   >>>
 
   runtime {
@@ -337,7 +334,6 @@ task articTrimming {
   output {
     File? sortedBam = "~{sortedBam_}"
     File? sortedBai = "~{sortedBai_}"
-    File? cvgHist = "~{sample}.cvghist.txt"
   }
 }
 
@@ -386,6 +382,7 @@ task qcStats {
   input {
     String modules = "bedtools samtools/1.9"
     String sample
+    File? panelBed
     File bam
     File hostMappedBam
     Int mem = 8
@@ -394,6 +391,10 @@ task qcStats {
 
   command <<<
     set -euo pipefail
+
+    if [ -f ~{panelBed} ]; then
+      bedtools coverage -hist -a ~{panelBed} -b ~{bam} > ~{sample}.cvghist.txt
+    fi
 
     bedtools genomecov -ibam ~{bam} > ~{sample}.genomecvghist.txt
 
@@ -411,6 +412,7 @@ task qcStats {
   }
 
   output {
+    File? cvgHist = "~{sample}.cvghist.txt"
     File genomecvgHist = "~{sample}.genomecvghist.txt"
     File genomecvgPerBase = "~{sample}.genome.cvgperbase.txt"
     File hostMappedAlignmentStats = "~{sample}.host.mapped.samstats.txt"
