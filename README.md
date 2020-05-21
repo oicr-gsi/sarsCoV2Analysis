@@ -41,7 +41,7 @@ Parameter|Value|Description
 #### Optional workflow parameters:
 Parameter|Value|Default|Description
 ---|---|---|---
-`primerBed`|File?|None|
+`primerBed`|File?|None|Bed file used to trim the primers off of the bam sequences.
 `panelBed`|File?|None|
 
 
@@ -67,9 +67,11 @@ Parameter|Value|Default|Description
 `bowtie2Sensitive.mem`|Int|8|
 `bowtie2Sensitive.timeout`|Int|72|
 `bowtie2Sensitive.threads`|Int|4|
-`articTrimming.modules`|String|"ivar/1.0 bedtools"|
-`articTrimming.mem`|Int|8|
-`articTrimming.timeout`|Int|72|
+`articTrimming.allowNoprimer`|Boolean?|None|Allow reads that don't have primer sequence? Ligation prep = false, nextera = true.
+`articTrimming.bam`|File|None|Host depleted and aligned to mn908947 bam file.
+`articTrimming.modules`|String|"ivar/1.0 bedtools"|Environment module name and version to load (space separated) before command execution.
+`articTrimming.mem`|Int|8|Memory (in GB) to allocate to the job.
+`articTrimming.timeout`|Int|72|Maximum amount of time (in hours) the task can run for.
 `variantCalling.modules`|String|"bcftools/1.9 samtools/1.9 vcftools/0.1.16 seqtk/1.3 sars-covid-2-polymasked/mn908947.3"|
 `variantCalling.sarsCovidRef`|String|"$SARS_COVID_2_POLYMASKED_ROOT/MN908947.3.mask.fasta"|
 `variantCalling.mem`|Int|8|

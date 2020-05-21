@@ -306,6 +306,7 @@ task articTrimming {
     File bam
     File primerBed
     String sample
+    Boolean? allowNoprimer
     Int mem = 8
     Int timeout = 72
   }
@@ -318,7 +319,11 @@ task articTrimming {
   command <<<
     set -euo pipefail
 
-    ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim}
+    if allowNoprimer; then
+      ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim} -e
+    else
+      ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim}
+    fi
 
     samtools sort ~{primertrimBam} -o ~{sortedBam_}
 
@@ -334,6 +339,15 @@ task articTrimming {
   output {
     File? sortedBam = "~{sortedBam_}"
     File? sortedBai = "~{sortedBai_}"
+  }
+
+  parameter_meta {
+    bam: "Host depleted and aligned to mn908947 bam file."
+    primerBed: "Bed file used to trim the primers off of the bam sequences."
+    allowNoprimer: "Allow reads that don't have primer sequence? Ligation prep = false, nextera = true."
+    mem: "Memory (in GB) to allocate to the job."
+    timeout: "Maximum amount of time (in hours) the task can run for."
+    modules: "Environment module name and version to load (space separated) before command execution."
   }
 }
 
