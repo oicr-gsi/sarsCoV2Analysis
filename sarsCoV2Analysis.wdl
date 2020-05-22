@@ -319,11 +319,7 @@ task articTrimming {
   command <<<
     set -euo pipefail
 
-    if allowNoprimer; then
-      ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim} -e
-    else
-      ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim}
-    fi
+    ivar trim -i ~{bam} -b ~{primerBed} -p ~{primertrim} ~{true="-e" false="" allowNoprimer}
 
     samtools sort ~{primertrimBam} -o ~{sortedBam_}
 
