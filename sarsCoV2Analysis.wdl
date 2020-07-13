@@ -521,7 +521,6 @@ task spadesGenomicAssembly {
       rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
     else
       echo 'Not enough reads to run SPAdes genomic assembly.' 1>&2
-      cat error.log 1>&2
     fi
 
     tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}.SPAdes.tar.gz
