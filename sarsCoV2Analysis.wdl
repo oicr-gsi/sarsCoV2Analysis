@@ -471,6 +471,8 @@ task blast2ReferenceSequence {
 task spadesGenomicAssembly {
   input {
     String modules = "spades/3.14.0"
+    Int numReads
+    Int minReads = 100
     File fastq1
     File fastq2
     String sample
@@ -483,7 +485,12 @@ task spadesGenomicAssembly {
 
     mkdir ~{sample}.SPAdes
 
-    rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+    if [ "~{numReads}" -gt "~{minReads}" ]; then
+      rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+    else
+      echo 'Not enough reads to run SPAdes genomic assembly.' 1>&2
+      cat error.log 1>&2
+    fi
 
     tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}.SPAdes.tar.gz
   >>>
