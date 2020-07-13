@@ -18,8 +18,7 @@
         "wdl_inputs": {
           "sarsCoV2Analysis.fastq1": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
           "sarsCoV2Analysis.fastq2": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
-          "sarsCoV2Analysis.samplePrefix": "SRR11059944",
-          "sarsCoV2Analysis.spadesGenomicAssembly.numReads": 449654
+          "sarsCoV2Analysis.samplePrefix": "SRR11059944"
         }
       }
     },
@@ -32,7 +31,7 @@
           "sarsCoV2Analysis.samplePrefix": "SWID_16554996_SCTSK_0004",
           "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V2.bed",
           "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V2.bed",
-          "sarsCoV2Analysis.spadesGenomicAssembly.numReads": 50487
+          "sarsCoV2Analysis.readCount": 50487
         }
       }
     },
@@ -45,7 +44,7 @@
           "sarsCoV2Analysis.samplePrefix": "SCTSK_0004_nn_n_PE_661_TS_S10_L001",
           "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V3.bed",
           "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V3.bed",
-          "sarsCoV2Analysis.spadesGenomicAssembly.numReads": 161095
+          "sarsCoV2Analysis.readCount": 161095
         }
       }
     }
