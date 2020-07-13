@@ -43,7 +43,7 @@ Parameter|Value|Default|Description
 ---|---|---|---
 `primerBed`|File?|None|Bed file used to trim the primers off of the bam sequences.
 `panelBed`|File?|None|
-
+`readCount`|Int?|None|Number of reads for fastq files.
 
 #### Optional task parameters:
 Parameter|Value|Default|Description
@@ -86,6 +86,7 @@ Parameter|Value|Default|Description
 `spadesGenomicAssembly.modules`|String|"spades/3.14.0"|
 `spadesGenomicAssembly.mem`|Int|8|
 `spadesGenomicAssembly.timeout`|Int|72|
+`spadesGenomicAssembly.minReads`|Int|100
 
 
 ### Outputs
