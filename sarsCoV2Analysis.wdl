@@ -7,6 +7,7 @@ workflow sarsCoV2Analysis {
     String samplePrefix
     File? primerBed
     File? panelBed
+    Int? readCount
   }
 
   parameter_meta {
@@ -124,11 +125,19 @@ workflow sarsCoV2Analysis {
       sample = samplePrefix
   }
 
+  if (!defined(readCount)) {
+    call generateReadCount {
+      input:
+        fastq = fastq1
+    }
+  }
+
   call spadesGenomicAssembly {
     input:
       fastq1 = bowtie2HumanDepletion.out1,
       fastq2 = bowtie2HumanDepletion.out2,
-      sample = samplePrefix
+      sample = samplePrefix,
+      readCount = select_first([readCount, generateReadCount.readCount])
   }
 
   output {
@@ -468,9 +477,34 @@ task blast2ReferenceSequence {
   }
 }
 
+task generateReadCount {
+  input {
+    String modules = ""
+    File fastq
+    Int mem = 4
+    Int timeout = 4
+  }
+
+  command <<<
+    zcat ~{fastq} | sed -n '1~4p' | wc -l
+  >>>
+
+  runtime {
+    memory: "~{mem} GB"
+    modules: "~{modules}"
+    timeout: "~{timeout}"
+  }
+
+  output {
+    Int readCount = read_int(stdout())
+  }
+}
+
 task spadesGenomicAssembly {
   input {
     String modules = "spades/3.14.0"
+    Int readCount
+    Int minReads = 100
     File fastq1
     File fastq2
     String sample
@@ -483,7 +517,11 @@ task spadesGenomicAssembly {
 
     mkdir ~{sample}.SPAdes
 
-    rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+    if [ "~{readCount}" -gt "~{minReads}" ]; then
+      rnaspades.py --pe1-1 ~{fastq1} --pe1-2 ~{fastq2} -o ~{sample}.SPAdes
+    else
+      echo 'Not enough reads to run SPAdes genomic assembly.' 1>&2
+    fi
 
     tar cf - ~{sample}.SPAdes | gzip --no-name > ~{sample}.SPAdes.tar.gz
   >>>
