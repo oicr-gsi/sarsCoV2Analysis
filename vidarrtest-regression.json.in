@@ -293,30 +293,8 @@
             "sarsCoV2Analysis.kraken2.mem": null,
             "sarsCoV2Analysis.kraken2.modules": null,
             "sarsCoV2Analysis.kraken2.timeout": null,
-            "sarsCoV2Analysis.panelBed": {
-                "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V2.bed",
-                    "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
-                    ]
-                },
-                "type": "EXTERNAL"
-            },
-            "sarsCoV2Analysis.primerBed": {
-                "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V2.bed",
-                    "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
-                    ]
-                },
-                "type": "EXTERNAL"
-            },
+            "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V2.bed",
+            "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V2.bed",
             "sarsCoV2Analysis.qcStats.mem": null,
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,
@@ -553,30 +531,8 @@
             "sarsCoV2Analysis.kraken2.mem": null,
             "sarsCoV2Analysis.kraken2.modules": null,
             "sarsCoV2Analysis.kraken2.timeout": null,
-            "sarsCoV2Analysis.panelBed": {
-                "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V3.bed",
-                    "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
-                    ]
-                },
-                "type": "EXTERNAL"
-            },
-            "sarsCoV2Analysis.primerBed": {
-                "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V3.bed",
-                    "externalIds": [
-                        {
-                            "id": "TEST",
-                            "provider": "TEST"
-                        }
-                    ]
-                },
-                "type": "EXTERNAL"
-            },
+            "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V3.bed",
+            "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V3.bed",
             "sarsCoV2Analysis.qcStats.mem": null,
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,

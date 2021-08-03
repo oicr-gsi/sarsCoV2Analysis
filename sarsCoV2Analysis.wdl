@@ -5,8 +5,8 @@ workflow sarsCoV2Analysis {
     File fastq1
     File fastq2
     String samplePrefix
-    File? primerBed
-    File? panelBed
+    String? primerBed
+    String? panelBed
     Int? readCount
   }
 
@@ -313,7 +313,7 @@ task articTrimming {
   input {
     String modules = "ivar/1.0 bedtools"
     File bam
-    File primerBed
+    String primerBed
     String sample
     Boolean? allowNoprimer
     Int mem = 8
@@ -401,7 +401,7 @@ task qcStats {
   input {
     String modules = "bedtools samtools/1.9"
     String sample
-    File? panelBed
+    String? panelBed
     File bam
     File hostMappedBam
     Int mem = 8
