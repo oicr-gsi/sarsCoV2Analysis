@@ -7,6 +7,7 @@ workflow sarsCoV2Analysis {
     String samplePrefix
     File? primerBed
     File? panelBed
+	Boolean? doAssembly
   }
 
   parameter_meta {
@@ -124,11 +125,13 @@ workflow sarsCoV2Analysis {
       sample = samplePrefix
   }
 
-  call spadesGenomicAssembly {
-    input:
-      fastq1 = bowtie2HumanDepletion.out1,
-      fastq2 = bowtie2HumanDepletion.out2,
-      sample = samplePrefix
+  if (doAssembly == true){
+    call spadesGenomicAssembly {
+      input:
+        fastq1 = bowtie2HumanDepletion.out1,
+        fastq2 = bowtie2HumanDepletion.out2,
+        sample = samplePrefix
+    }
   }
 
   output {
@@ -150,7 +153,7 @@ workflow sarsCoV2Analysis {
     File genomecvgPerBase = qcStats.genomecvgPerBase
     File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
     File hostDepletedAlignmentStats = qcStats.hostDepletedAlignmentStats
-    File spades = spadesGenomicAssembly.sampleSPAdes
+    File? spades = spadesGenomicAssembly.sampleSPAdes
   }
 }
 
