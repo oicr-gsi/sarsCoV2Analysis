@@ -7,7 +7,7 @@ workflow sarsCoV2Analysis {
     String samplePrefix
     File? primerBed
     File? panelBed
-    Boolean doAssembly = false
+    Boolean? doAssembly = false
   }
 
   parameter_meta {
