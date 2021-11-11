@@ -8,6 +8,7 @@ workflow sarsCoV2Analysis {
     String? primerBed
     String? panelBed
     Int? readCount
+    Boolean? doAssembly = false
   }
 
   parameter_meta {
@@ -140,26 +141,28 @@ workflow sarsCoV2Analysis {
       readCount = select_first([readCount, generateReadCount.readCount])
   }
 
-  output {
-    File hostRemovedR1Fastq = bowtie2HumanDepletion.out1
-    File hostRemovedR2Fastq = bowtie2HumanDepletion.out2
-    File hostMappedBam = bowtie2HumanDepletion.hostMappedBam
-    File hostMappedBai = bowtie2HumanDepletion.hostMappedBai
-    File taxonomicClassification = kraken2.out
-    File bam = bowtie2Sensitive.bamFile
-    File bai = bowtie2Sensitive.baiFile
-    File? primertrimSortedBam = articTrimming.sortedBam
-    File? primertrimSortedBai = articTrimming.sortedBai
-    File vcf = variantCalling.vcfFile
-    File consensusFasta = variantCalling.consensusFasta
-    File variantOnlyVcf = variantCalling.variantOnlyVcf
-    File bl2seqReport = blast2ReferenceSequence.bl2seqReport
-    File? cvgHist = qcStats.cvgHist
-    File genomecvgHist = qcStats.genomecvgHist
-    File genomecvgPerBase = qcStats.genomecvgPerBase
-    File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
-    File hostDepletedAlignmentStats = qcStats.hostDepletedAlignmentStats
-    File spades = spadesGenomicAssembly.sampleSPAdes
+  if (doAssembly == true){
+    output {
+      File hostRemovedR1Fastq = bowtie2HumanDepletion.out1
+      File hostRemovedR2Fastq = bowtie2HumanDepletion.out2
+      File hostMappedBam = bowtie2HumanDepletion.hostMappedBam
+      File hostMappedBai = bowtie2HumanDepletion.hostMappedBai
+      File taxonomicClassification = kraken2.out
+      File bam = bowtie2Sensitive.bamFile
+      File bai = bowtie2Sensitive.baiFile
+      File? primertrimSortedBam = articTrimming.sortedBam
+      File? primertrimSortedBai = articTrimming.sortedBai
+      File vcf = variantCalling.vcfFile
+      File consensusFasta = variantCalling.consensusFasta
+      File variantOnlyVcf = variantCalling.variantOnlyVcf
+      File bl2seqReport = blast2ReferenceSequence.bl2seqReport
+      File? cvgHist = qcStats.cvgHist
+      File genomecvgHist = qcStats.genomecvgHist
+      File genomecvgPerBase = qcStats.genomecvgPerBase
+      File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
+      File hostDepletedAlignmentStats = qcStats.hostDepletedAlignmentStats
+      File? spades = spadesGenomicAssembly.sampleSPAdes
+    }
   }
 }
 
