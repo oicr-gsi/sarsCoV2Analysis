@@ -232,7 +232,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/1.0/SRR11059944-test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/SRR11059944-test.metrics",
                 "type": "script"
             }
         ]
@@ -470,7 +470,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/1.0/SWID_16554996_SCTSK_0004-test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/SWID_16554996_SCTSK_0004-test.metrics",
                 "type": "script"
             }
         ]
@@ -708,7 +708,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/1.0/SCTSK_0004_nn_n_PE_661_TS_S10_L001-test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/SCTSK_0004_nn_n_PE_661_TS_S10_L001-test.metrics",
                 "type": "script"
             }
         ]
@@ -946,7 +946,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/1.0/low_num_reads_test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/low_num_reads_test.metrics",
                 "type": "script"
             }
         ]
