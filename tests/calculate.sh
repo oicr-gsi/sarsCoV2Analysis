@@ -14,4 +14,4 @@ find . -regex '.*\_qad_*.fastq.gz' -exec sh -c "echo -n "{}:";zcat {} | sort | m
 find . -regex '.*\_host_removed_*.fastq.gz' -exec sh -c "echo -n "{}:";zcat {} | sort | md5sum" \;
 
 find . -regex '.*\.bam' -exec sh -c "echo -n "{}:";samtools flagstat {} | md5sum" \;
-find . -regex '.*\.vcf' -exec sh -c "echo -n "{}:";cat {} | grep -v '^#' | cut -f 1-4 | md5sum" \;
+find . -regex '.*\.vcf' -exec sh -c "echo -n "{}:";cat {} | grep -v '^#' | cut -f 1-4 | md5sum" \; 
