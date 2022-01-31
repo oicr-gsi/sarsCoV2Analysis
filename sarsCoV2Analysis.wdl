@@ -8,7 +8,7 @@ workflow sarsCoV2Analysis {
     String? primerBed
     String? panelBed
     Int? readCount
-    Boolean? doAssembly = false
+    Boolean doAssembly = false
   }
 
   parameter_meta {
