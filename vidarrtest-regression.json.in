@@ -73,7 +73,10 @@
             "sarsCoV2Analysis.variantCalling.timeout": null
         },
         "description": "SARS-CoV-2 Analysis workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+	    "write_to_cache": false,
+            "read_from_cache": false	    
+	},
         "id": "SRR11059944-test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
@@ -312,7 +315,10 @@
             "sarsCoV2Analysis.variantCalling.timeout": null
         },
         "description": "SARS-CoV-2 Analysis workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+            "write_to_cache": false,
+            "read_from_cache": false
+        },
         "id": "SWID_16554996_SCTSK_0004-test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
@@ -551,7 +557,10 @@
             "sarsCoV2Analysis.variantCalling.timeout": null
         },
         "description": "SARS-CoV-2 Analysis workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+            "write_to_cache": false,
+            "read_from_cache": false
+        },
         "id": "SCTSK_0004_nn_n_PE_661_TS_S10_L001-test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
@@ -790,7 +799,10 @@
             "sarsCoV2Analysis.variantCalling.timeout": null
         },
         "description": "SARS-CoV-2 Analysis workflow test",
-        "engineArguments": {},
+        "engineArguments": {
+            "write_to_cache": false,
+            "read_from_cache": false
+        },
         "id": "low_num_reads_test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
