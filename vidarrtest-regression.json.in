@@ -966,5 +966,247 @@
                 "type": "script"
             }
         ]
-    }
+    },
+    {
+        "arguments": {
+            "sarsCoV2Analysis.articTrimming.allowNoprimer": null,
+            "sarsCoV2Analysis.articTrimming.mem": null,
+            "sarsCoV2Analysis.articTrimming.modules": null,
+            "sarsCoV2Analysis.articTrimming.timeout": null,
+            "sarsCoV2Analysis.bbMap.mem": null,
+            "sarsCoV2Analysis.bbMap.modules": null,
+            "sarsCoV2Analysis.bbMap.reference": null,
+            "sarsCoV2Analysis.bbMap.timeout": null,
+            "sarsCoV2Analysis.bbMap.trimq": null,
+            "sarsCoV2Analysis.blast2ReferenceSequence.mem": null,
+            "sarsCoV2Analysis.blast2ReferenceSequence.modules": null,
+            "sarsCoV2Analysis.blast2ReferenceSequence.reference": null,
+            "sarsCoV2Analysis.blast2ReferenceSequence.timeout": null,
+            "sarsCoV2Analysis.bowtie2HumanDepletion.mem": null,
+            "sarsCoV2Analysis.bowtie2HumanDepletion.modules": null,
+            "sarsCoV2Analysis.bowtie2HumanDepletion.reference": null,
+            "sarsCoV2Analysis.bowtie2HumanDepletion.threads": null,
+            "sarsCoV2Analysis.bowtie2HumanDepletion.timeout": null,
+            "sarsCoV2Analysis.bowtie2Sensitive.mem": null,
+            "sarsCoV2Analysis.bowtie2Sensitive.modules": null,
+            "sarsCoV2Analysis.bowtie2Sensitive.sarsCovidIndex": null,
+            "sarsCoV2Analysis.bowtie2Sensitive.threads": null,
+            "sarsCoV2Analysis.bowtie2Sensitive.timeout": null,
+            "sarsCoV2Analysis.fastq1": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "sarsCoV2Analysis.fastq2": {
+                "contents": {
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
+                    "externalIds": [
+                        {
+                            "id": "TEST",
+                            "provider": "TEST"
+                        }
+                    ]
+                },
+                "type": "EXTERNAL"
+            },
+            "sarsCoV2Analysis.generateReadCount.mem": null,
+            "sarsCoV2Analysis.generateReadCount.modules": null,
+            "sarsCoV2Analysis.generateReadCount.timeout": null,
+            "sarsCoV2Analysis.kraken2.kraken2DB": null,
+            "sarsCoV2Analysis.kraken2.mem": null,
+            "sarsCoV2Analysis.kraken2.modules": null,
+            "sarsCoV2Analysis.kraken2.timeout": null,
+            "sarsCoV2Analysis.panelBed": null,
+            "sarsCoV2Analysis.primerBed": null,
+            "sarsCoV2Analysis.qcStats.mem": null,
+            "sarsCoV2Analysis.qcStats.modules": null,
+            "sarsCoV2Analysis.qcStats.timeout": null,
+            "sarsCoV2Analysis.readCount": 1,
+            "sarsCoV2Analysis.samplePrefix": "SRR11059944",
+            "sarsCoV2Analysis.spadesGenomicAssembly.mem": null,
+            "sarsCoV2Analysis.spadesGenomicAssembly.minReads": null,
+            "sarsCoV2Analysis.spadesGenomicAssembly.modules": null,
+            "sarsCoV2Analysis.spadesGenomicAssembly.timeout": null,
+	    "sarsCoV2Analysis.doAssembly": false,
+            "sarsCoV2Analysis.variantCalling.mem": null,
+            "sarsCoV2Analysis.variantCalling.modules": null,
+            "sarsCoV2Analysis.variantCalling.sarsCovidRef": null,
+            "sarsCoV2Analysis.variantCalling.timeout": null
+        },
+        "description": "SARS-CoV-2 Analysis workflow test",
+        "engineArguments": {
+            "write_to_cache": false,
+            "read_from_cache": false
+        },
+        "id": "low_num_reads_noassembly_test",
+        "metadata": {
+            "sarsCoV2Analysis.bai": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.bam": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.bl2seqReport": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_assembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.consensusFasta": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.cvgHist": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.genomecvgHist": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.genomecvgPerBase": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.hostDepletedAlignmentStats": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.hostMappedAlignmentStats": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.hostMappedBai": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.hostMappedBam": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.hostRemovedR1Fastq": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.hostRemovedR2Fastq": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.primertrimSortedBai": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.primertrimSortedBam": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.spades": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.taxonomicClassification": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.variantOnlyVcf": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "sarsCoV2Analysis.vcf": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
+                "metrics_compare": "@CHECKOUT@/tests/compare.sh",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/low_num_reads_test.metrics",
+                "type": "script"
+            }
+        ]
+    }    
 ]
