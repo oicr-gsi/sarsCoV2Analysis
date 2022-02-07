@@ -1066,7 +1066,7 @@
             "sarsCoV2Analysis.bl2seqReport": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_assembly_test@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_low_num_reads_noassembly_test@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -1204,7 +1204,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/low_num_reads_test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/low_num_reads_noassembly_test.metrics",
                 "type": "script"
             }
         ]
