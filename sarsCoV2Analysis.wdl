@@ -1,4 +1,4 @@
-version 1.0
+version 1.0 
 
 workflow sarsCoV2Analysis {
   input {
@@ -8,6 +8,7 @@ workflow sarsCoV2Analysis {
     String? primerBed
     String? panelBed
     Int? readCount
+    Boolean doAssembly = false
   }
 
   parameter_meta {
@@ -131,13 +132,14 @@ workflow sarsCoV2Analysis {
         fastq = fastq1
     }
   }
-
-  call spadesGenomicAssembly {
-    input:
-      fastq1 = bowtie2HumanDepletion.out1,
-      fastq2 = bowtie2HumanDepletion.out2,
-      sample = samplePrefix,
-      readCount = select_first([readCount, generateReadCount.readCount])
+  if (doAssembly == true){
+    call spadesGenomicAssembly {
+      input:
+        fastq1 = bowtie2HumanDepletion.out1,
+        fastq2 = bowtie2HumanDepletion.out2,
+        sample = samplePrefix,
+        readCount = select_first([readCount, generateReadCount.readCount])
+    }
   }
 
   output {
@@ -159,7 +161,7 @@ workflow sarsCoV2Analysis {
     File genomecvgPerBase = qcStats.genomecvgPerBase
     File hostMappedAlignmentStats = qcStats.hostMappedAlignmentStats
     File hostDepletedAlignmentStats = qcStats.hostDepletedAlignmentStats
-    File spades = spadesGenomicAssembly.sampleSPAdes
+    File? spades = spadesGenomicAssembly.sampleSPAdes
   }
 }
 
