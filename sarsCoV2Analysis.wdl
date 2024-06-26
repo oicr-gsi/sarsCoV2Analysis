@@ -15,6 +15,10 @@ workflow sarsCoV2Analysis {
     fastq1: "Read 1 fastq file, gzipped. Can be either targeted or whole transcriptome"
     fastq2: "Read 2 fastq file, gzipped. Can be either targeted or whole transcriptome."
     samplePrefix: "Prefix for output files"
+    primerBed: "bed file used to trim the primers off of the bam sequences"
+    panelBed: "bed file for an optional Panel of Intervals"
+    readCount: "Optionally pass the number of reads in the input fastq files"
+    doAssembly: "Flag to control building an assembly with SPADES"
   }
 
   meta {
@@ -67,6 +71,84 @@ workflow sarsCoV2Analysis {
     	    url: "http://cab.spbu.ru/files/release3.14.0/manual.html"
     	}
   	]
+        output_meta: {
+            hostRemovedR1Fastq: {
+              description: "Fastq file R1 with host reads removed.",
+              vidarr_label: "hostRemovedR1Fastq"
+            },
+            hostRemovedR2Fastq: {
+              description: "Fastq file R2 with host reads removed.",
+              vidarr_label: "hostRemovedR2Fastq"
+            },
+            hostMappedBam: {
+               description: "Reads mapped to host, bam format.",
+               vidarr_label: "hostMappedBam" 
+            },
+            hostMappedBai: {
+               description: "Index for bam with host-mapped reads.",
+               vidarr_label: "hostMappedBai"
+            },
+            taxonomicClassification: {
+               description: "Kraken2 taxonomic classification report.",
+               vidarr_label: "taxonomicClassification"
+            },
+            bam: {
+               description: "Bowtie2-aligned reads, sensisitve mode.",
+               vidarr_label: "bam"
+            },
+            bai: {
+               description: "Index of bam with bowtie2-aligned reads, sensisitve mode.",
+               vidarr_label: "bai"
+            },
+            primertrimSortedBam: {
+               description: "Trimmed reads aligned with bowtie2.",
+               vidarr_label: "primertrimSortedBam"
+            },
+            primertrimSortedBai: {
+               description: "Index for trimmed reads aligned with bowtie2.",
+               vidarr_label: "primertrimSortedBai"
+            },
+            vcf: {
+               description: "Variants produced with bcftools (using cleaned reads).",
+               vidarr_label: "vcf"
+            },
+            consensusFasta: {
+               description: "Consensus fasta file produced along the variants.",
+               vidarr_label: "consensusFasta"
+            },
+            variantOnlyVcf: {
+               description: "Variants produced with bcftools, only variant calls.",
+               vidarr_label: "variantOnlyVcf"
+            },
+            bl2seqReport: {
+               description: "BLAST results.",
+               vidarr_label: "bl2seqReport"
+            },
+            cvgHist: {
+               description: "Coverage histogram, output from qcstats.",
+               vidarr_label: "cvgHist"
+            },
+            genomecvgHist: {
+               description: "Genome coverage histogram.",
+               vidarr_label: "genomecvgHist"
+            },
+            genomecvgPerBase: {
+               description: "Genome coverage per base.",
+               vidarr_label: "genomecvgPerBase"
+            },
+            hostMappedAlignmentStats: {
+               description: "Stats for host-aligned reads.",
+               vidarr_label: "hostMappedAlignmentStats"
+            },
+            hostDepletedAlignmentStats: {
+               description: "Stats for alignments of reads depleted of host.",
+               vidarr_label: "hostDepletedAlignmentStats"
+            },
+            spades: {
+               description: "Spades output.",
+               vidarr_label: "spades"
+            }
+        }
   }
 
   call bbMap {
@@ -177,6 +259,17 @@ task bbMap {
     Int timeout = 72
   }
 
+  parameter_meta {
+    modules: "Modules to load for the task"
+    fastq1: "R1 input fastq file"
+    fastq2: "R2 input fastq file"
+    sample: "Sample id"
+    reference: "Reference FSATA, adapter sequences"
+    trimq: "Trim quality"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+  }
+
   command <<<
     set -euo pipefail
 
@@ -210,6 +303,17 @@ task bowtie2HumanDepletion {
     Int mem = 12
     Int timeout = 72
     Int threads = 8
+  }
+
+  parameter_meta {
+    modules: "Modules to load for the task"
+    fastq1: "R1 input fastq file"
+    fastq2: "R2 input fastq file"
+    sample: "Sample id"
+    reference: "Reference FSATA, adapter sequences"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+    threads: "Threads to use for this task"
   }
 
   String hostMappedBam_ = "~{sample}.host.mapped.bam"
@@ -254,6 +358,16 @@ task kraken2 {
     Int timeout = 72
   }
 
+  parameter_meta {
+    modules: "Modules to load for the task"
+    fastq1: "R1 input fastq file"
+    fastq2: "R2 input fastq file"
+    sample: "Sample id"
+    kraken2DB: "Root of the directory with KRAKEN database"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+  }
+
   command <<<
     set -euo pipefail
 
@@ -283,6 +397,17 @@ task bowtie2Sensitive {
     Int mem = 8
     Int timeout = 72
     Int threads = 4
+  }
+
+  parameter_meta {
+    modules: "Modules to load for the task"
+    fastq1: "R1 input fastq file"
+    fastq2: "R2 input fastq file"
+    sample: "Sample id"
+    sarsCovidIndex: "Polymasked Bowtie2 index file"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+    threads: "Threads to use for the task"
   }
 
   String bamFile_ = "~{sample}.bam"
@@ -368,6 +493,15 @@ task variantCalling {
     Int timeout = 72
   }
 
+  parameter_meta {
+    modules: "Modules to load for the task"
+    bam: "Input bam file"
+    sample: "Sample id"
+    sarsCovidRef: "Path to sarsCovidRef reference file"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+  }
+
   String vcfName = "~{sample}.vcf"
   String fastaName = "~{sample}.consensus.fasta"
   String variantOnlyVcf_ = "~{sample}.v.vcf"
@@ -408,6 +542,16 @@ task qcStats {
     File hostMappedBam
     Int mem = 8
     Int timeout = 72
+  }
+
+  parameter_meta {
+    modules: "Modules to load for the task"
+    bam: "Input bam file"
+    panelBed: "Optional panel bed file"
+    sample: "Sample id"
+    hostMappedBam: "bam file with mapped host reads"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
   }
 
   command <<<
@@ -451,6 +595,15 @@ task blast2ReferenceSequence {
     Int timeout = 72
   }
 
+  parameter_meta {
+    modules: "Modules to load for the task"
+    reference: "Reference FASTA file"
+    consensusFasta: "Consensus FASTA file for use with BLAST"
+    sample: "Sample id"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+  }
+
   command <<<
     set -euo pipefail
 
@@ -487,6 +640,13 @@ task generateReadCount {
     Int timeout = 4
   }
 
+  parameter_meta {
+    modules: "Modules to load for the task"
+    fastq: "gzipped fastq file"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
+  }
+
   command <<<
     zcat ~{fastq} | sed -n '1~4p' | wc -l
   >>>
@@ -512,6 +672,17 @@ task spadesGenomicAssembly {
     String sample
     Int mem = 8
     Int timeout = 72
+  }
+
+  parameter_meta {
+    modules: "Modules to load for the task"
+    readCount: "Read count for fastq files"
+    minReads: "threshold for minimum reads"
+    fastq1: "Input fastq file R1"
+    fastq2: "Input fastq file R2"
+    sample: "Sample id"
+    mem: "Memory allocated to the task"
+    timeout: "Timeout, in hours"
   }
 
   command <<<
