@@ -26,7 +26,7 @@
             "sarsCoV2Analysis.bowtie2Sensitive.timeout": null,
             "sarsCoV2Analysis.fastq1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SRR_1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -38,7 +38,7 @@
             },
             "sarsCoV2Analysis.fastq2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SRR_2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -61,7 +61,7 @@
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,
             "sarsCoV2Analysis.readCount": null,
-            "sarsCoV2Analysis.samplePrefix": "SRR11059944",
+            "sarsCoV2Analysis.samplePrefix": "SRR_Test",
             "sarsCoV2Analysis.spadesGenomicAssembly.mem": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.minReads": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.modules": null,
@@ -77,12 +77,12 @@
 	    "write_to_cache": false,
             "read_from_cache": false	    
 	},
-        "id": "SRR11059944-test",
+        "id": "SRR-test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -90,7 +90,7 @@
             "sarsCoV2Analysis.bam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -98,7 +98,7 @@
             "sarsCoV2Analysis.bl2seqReport": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -106,7 +106,7 @@
             "sarsCoV2Analysis.consensusFasta": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -114,7 +114,7 @@
             "sarsCoV2Analysis.cvgHist": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -122,7 +122,7 @@
             "sarsCoV2Analysis.genomecvgHist": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -130,7 +130,7 @@
             "sarsCoV2Analysis.genomecvgPerBase": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -138,7 +138,7 @@
             "sarsCoV2Analysis.hostDepletedAlignmentStats": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -146,7 +146,7 @@
             "sarsCoV2Analysis.hostMappedAlignmentStats": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -154,7 +154,7 @@
             "sarsCoV2Analysis.hostMappedBai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -162,7 +162,7 @@
             "sarsCoV2Analysis.hostMappedBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -170,7 +170,7 @@
             "sarsCoV2Analysis.hostRemovedR1Fastq": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -178,7 +178,7 @@
             "sarsCoV2Analysis.hostRemovedR2Fastq": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -186,7 +186,7 @@
             "sarsCoV2Analysis.primertrimSortedBai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -194,7 +194,7 @@
             "sarsCoV2Analysis.primertrimSortedBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -202,7 +202,7 @@
             "sarsCoV2Analysis.spades": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -210,7 +210,7 @@
             "sarsCoV2Analysis.taxonomicClassification": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -218,7 +218,7 @@
             "sarsCoV2Analysis.variantOnlyVcf": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -226,7 +226,7 @@
             "sarsCoV2Analysis.vcf": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR11059944-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SRR-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -236,7 +236,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/SRR11059944-test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/workflow_test_01.metrics",
                 "type": "script"
             }
         ]
@@ -268,7 +268,7 @@
             "sarsCoV2Analysis.bowtie2Sensitive.timeout": null,
             "sarsCoV2Analysis.fastq1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SWID_16554996_SCTSK_0004_R1_001.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SWID_R1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -280,7 +280,7 @@
             },
             "sarsCoV2Analysis.fastq2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SWID_16554996_SCTSK_0004_R2_001.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SWID_R2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -297,13 +297,13 @@
             "sarsCoV2Analysis.kraken2.mem": null,
             "sarsCoV2Analysis.kraken2.modules": null,
             "sarsCoV2Analysis.kraken2.timeout": null,
-            "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V2.bed",
-            "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V2.bed",
+            "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/nCoV-2019.amplicons.V2.bed",
+            "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/ARTIC-V2.bed",
             "sarsCoV2Analysis.qcStats.mem": null,
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,
             "sarsCoV2Analysis.readCount": 50487,
-            "sarsCoV2Analysis.samplePrefix": "SWID_16554996_SCTSK_0004",
+            "sarsCoV2Analysis.samplePrefix": "SWID_Test",
             "sarsCoV2Analysis.spadesGenomicAssembly.mem": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.minReads": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.modules": null,
@@ -319,12 +319,12 @@
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "SWID_16554996_SCTSK_0004-test",
+        "id": "SWID-test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -332,7 +332,7 @@
             "sarsCoV2Analysis.bam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -340,7 +340,7 @@
             "sarsCoV2Analysis.bl2seqReport": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -348,7 +348,7 @@
             "sarsCoV2Analysis.consensusFasta": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -356,7 +356,7 @@
             "sarsCoV2Analysis.cvgHist": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -364,7 +364,7 @@
             "sarsCoV2Analysis.genomecvgHist": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -372,7 +372,7 @@
             "sarsCoV2Analysis.genomecvgPerBase": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -380,7 +380,7 @@
             "sarsCoV2Analysis.hostDepletedAlignmentStats": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -388,7 +388,7 @@
             "sarsCoV2Analysis.hostMappedAlignmentStats": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -396,7 +396,7 @@
             "sarsCoV2Analysis.hostMappedBai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -404,7 +404,7 @@
             "sarsCoV2Analysis.hostMappedBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -412,7 +412,7 @@
             "sarsCoV2Analysis.hostRemovedR1Fastq": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -420,7 +420,7 @@
             "sarsCoV2Analysis.hostRemovedR2Fastq": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -428,7 +428,7 @@
             "sarsCoV2Analysis.primertrimSortedBai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -436,7 +436,7 @@
             "sarsCoV2Analysis.primertrimSortedBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -444,7 +444,7 @@
             "sarsCoV2Analysis.spades": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -452,7 +452,7 @@
             "sarsCoV2Analysis.taxonomicClassification": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -460,7 +460,7 @@
             "sarsCoV2Analysis.variantOnlyVcf": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -468,7 +468,7 @@
             "sarsCoV2Analysis.vcf": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID_16554996_SCTSK_0004-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SWID-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -478,7 +478,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/SWID_16554996_SCTSK_0004-test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/workflow_test_02.metrics",
                 "type": "script"
             }
         ]
@@ -510,7 +510,7 @@
             "sarsCoV2Analysis.bowtie2Sensitive.timeout": null,
             "sarsCoV2Analysis.fastq1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SCTSK_0004_nn_n_PE_661_TS_S10_L001_R1_001.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SCTSK_R1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -522,7 +522,7 @@
             },
             "sarsCoV2Analysis.fastq2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SCTSK_0004_nn_n_PE_661_TS_S10_L001_R2_001.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SCTSK_R2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -539,13 +539,13 @@
             "sarsCoV2Analysis.kraken2.mem": null,
             "sarsCoV2Analysis.kraken2.modules": null,
             "sarsCoV2Analysis.kraken2.timeout": null,
-            "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/nCoV-2019.amplicons.V3.bed",
-            "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/ARTIC-V3.bed",
+            "sarsCoV2Analysis.panelBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/nCoV-2019.amplicons.V3.bed",
+            "sarsCoV2Analysis.primerBed": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/ARTIC-V3.bed",
             "sarsCoV2Analysis.qcStats.mem": null,
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,
             "sarsCoV2Analysis.readCount": 161095,
-            "sarsCoV2Analysis.samplePrefix": "SCTSK_0004_nn_n_PE_661_TS_S10_L001",
+            "sarsCoV2Analysis.samplePrefix": "SCTSK_Test",
             "sarsCoV2Analysis.spadesGenomicAssembly.mem": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.minReads": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.modules": null,
@@ -561,12 +561,12 @@
             "write_to_cache": false,
             "read_from_cache": false
         },
-        "id": "SCTSK_0004_nn_n_PE_661_TS_S10_L001-test",
+        "id": "SCTSK-test",
         "metadata": {
             "sarsCoV2Analysis.bai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -574,7 +574,7 @@
             "sarsCoV2Analysis.bam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -582,7 +582,7 @@
             "sarsCoV2Analysis.bl2seqReport": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -590,7 +590,7 @@
             "sarsCoV2Analysis.consensusFasta": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -598,7 +598,7 @@
             "sarsCoV2Analysis.cvgHist": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -606,7 +606,7 @@
             "sarsCoV2Analysis.genomecvgHist": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -614,7 +614,7 @@
             "sarsCoV2Analysis.genomecvgPerBase": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -622,7 +622,7 @@
             "sarsCoV2Analysis.hostDepletedAlignmentStats": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -630,7 +630,7 @@
             "sarsCoV2Analysis.hostMappedAlignmentStats": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -638,7 +638,7 @@
             "sarsCoV2Analysis.hostMappedBai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -646,7 +646,7 @@
             "sarsCoV2Analysis.hostMappedBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -654,7 +654,7 @@
             "sarsCoV2Analysis.hostRemovedR1Fastq": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -662,7 +662,7 @@
             "sarsCoV2Analysis.hostRemovedR2Fastq": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -670,7 +670,7 @@
             "sarsCoV2Analysis.primertrimSortedBai": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -678,7 +678,7 @@
             "sarsCoV2Analysis.primertrimSortedBam": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -686,7 +686,7 @@
             "sarsCoV2Analysis.spades": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -694,7 +694,7 @@
             "sarsCoV2Analysis.taxonomicClassification": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -702,7 +702,7 @@
             "sarsCoV2Analysis.variantOnlyVcf": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -710,7 +710,7 @@
             "sarsCoV2Analysis.vcf": {
                 "contents": [
                     {
-                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK_0004_nn_n_PE_661_TS_S10_L001-test_@JENKINSID@"
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_sarsCoV2Analysis_SCTSK-test_@JENKINSID@"
                     }
                 ],
                 "type": "ALL"
@@ -720,7 +720,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/SCTSK_0004_nn_n_PE_661_TS_S10_L001-test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/workflow_test_03.metrics",
                 "type": "script"
             }
         ]
@@ -752,7 +752,7 @@
             "sarsCoV2Analysis.bowtie2Sensitive.timeout": null,
             "sarsCoV2Analysis.fastq1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SRR_1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -764,7 +764,7 @@
             },
             "sarsCoV2Analysis.fastq2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SRR_2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -787,7 +787,7 @@
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,
             "sarsCoV2Analysis.readCount": 1,
-            "sarsCoV2Analysis.samplePrefix": "SRR11059944",
+            "sarsCoV2Analysis.samplePrefix": "SRR_Test",
             "sarsCoV2Analysis.spadesGenomicAssembly.mem": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.minReads": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.modules": null,
@@ -962,7 +962,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/low_num_reads_test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/workflow_test_04.metrics",
                 "type": "script"
             }
         ]
@@ -994,7 +994,7 @@
             "sarsCoV2Analysis.bowtie2Sensitive.timeout": null,
             "sarsCoV2Analysis.fastq1": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_1.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SRR_1.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1006,7 +1006,7 @@
             },
             "sarsCoV2Analysis.fastq2": {
                 "contents": {
-                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/input_data/SRR11059944_2.fastq.gz",
+                    "configuration": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/test_inputs/SRR_2.fastq.gz",
                     "externalIds": [
                         {
                             "id": "TEST",
@@ -1029,7 +1029,7 @@
             "sarsCoV2Analysis.qcStats.modules": null,
             "sarsCoV2Analysis.qcStats.timeout": null,
             "sarsCoV2Analysis.readCount": 1,
-            "sarsCoV2Analysis.samplePrefix": "SRR11059944",
+            "sarsCoV2Analysis.samplePrefix": "SRR_Test",
             "sarsCoV2Analysis.spadesGenomicAssembly.mem": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.minReads": null,
             "sarsCoV2Analysis.spadesGenomicAssembly.modules": null,
@@ -1204,7 +1204,7 @@
             {
                 "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
                 "metrics_compare": "@CHECKOUT@/tests/compare.sh",
-                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/2.0/low_num_reads_noassembly_test.metrics",
+                "output_metrics": "/.mounts/labs/gsi/testdata/sarsCoV2Analysis/output_metrics/workflow_test_05.metrics",
                 "type": "script"
             }
         ]
